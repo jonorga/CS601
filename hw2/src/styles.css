@@ -1,0 +1,33 @@
+h1 {
+	text-align: center;
+}
+
+#outputheader {
+	font-weight: bold;
+}
+
+#input_hint {
+	font-weight: italic;
+	margin: 5px;
+}
+
+#input_div {
+	margin: 20px;
+	position: relative;
+}
+
+#button_div {
+	margin: 10px;
+}
+
+#submityear {
+	margin-right: auto;
+}
+
+#reset {
+	margin-left: auto;
+}
+
+#output_div {
+	margin: 10px;
+}

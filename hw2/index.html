@@ -41,19 +41,22 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
           crossorigin="anonymous">
     <script src="src/zodiac.js"></script>
+    <link rel="stylesheet" href="src/styles.css">
   </head>
   <body>
     <h1>Zodiac Symbol</h1>
-    <div>
-      <p>Please enter a year between 1948 and 2024</p>
+    <div id="input_div">
+      <p id="input_hint"><i>Please enter a year between 1948 and 2024</i></p>
       <input type="number" id="yearinput" class="form-control" min="1948" max="2024" maxlength="4">
-      <button type="button" id="submityear" class="btn btn-primary">Enter</button>
-      <button type="button" id="reset" class="btn btn-info">Reset</button>
+      <div id="button_div">
+        <button type="button" id="submityear" class="btn btn-primary">Enter</button>
+        <button type="button" id="reset" class="btn btn-info">Reset</button>
+      </div>
     </div>
-    <div>
+    <div id="output_div">
       <h2 id="outputheader"></h2>
+      <img id="outputimg" src="" alt="">
       <p id="outputbody"></p>
-      <img id="outputimg"src="" alt="">
     </div>
 
     <!--
