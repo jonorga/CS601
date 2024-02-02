@@ -122,6 +122,9 @@ const zodiac_years = {
 };
 
 document.addEventListener("DOMContentLoaded", function() {
+	const output_img = document.getElementById("outputimg");
+	output_img.style.height = "0px";
+	output_img.style.width = "0px";
 	document.getElementById("submityear").addEventListener("click", function() {
 		function inputCheck(input_val) {
 			if (input_val >= 1948 && input <= 2024)
