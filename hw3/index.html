@@ -8,17 +8,21 @@
           rel="stylesheet" 
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
           crossorigin="anonymous">
-    <script src="src/convert.js"></script>
+    <!-- <script src="src/convert.js"></script> -->
+    <script type="module">
+      import { convertTemp } from "./src/convert.js";
+      convertTemp();
+    </script>
   </head>
   <body>
     <h1>Fahrenheit to Celcius</h1>
     <div>
-      <p>Select a temperature in Fahrenheit between -250 and 250 degrees</p>
-      <input type="range" min="-250" max="250" value="32" id="slider_input">
+      <p>Enter a temperature in Fahrenheit between -250 and 250 degrees</p>
+      <input type="number" min="-250" max="250" id="temperature_input">
     </div>
 
-    <p id="slider_output"></p>
-    <p id="slider_output2"></p>
+    <p id="output_f"></p>
+    <p id="output_c"></p>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
