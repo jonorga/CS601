@@ -1,8 +1,7 @@
 export function convertTemp() {
 	document.addEventListener("DOMContentLoaded", function() {
 		const temp_input = document.getElementById("temperature_input");
-		const temp_output_f = document.getElementById("output_f");
-		const temp_output_c = document.getElementById("output_c");
+		const temp_output = document.getElementById("output");
 
 		function fToC(fVal) {
 			// The line below validates the entry to be a number in the correct range or returns invalid input
@@ -10,11 +9,10 @@ export function convertTemp() {
 				return "invalid input";
 			if (fVal == "")
 				return "no value entered";
-			return Math.floor(((fVal - 32) * 5) / 9);
+			return fVal + "° Fahrenheit = " + Math.floor(((fVal - 32) * 5) / 9) + "° Celcius";
 		}
 		function updateValues() {
-			temp_output_f.innerHTML = "Celcius temp: " + fToC(temp_input.value);
-			temp_output_c.innerHTML = "F temp: " + temp_input.value;
+			temp_output.innerHTML = fToC(temp_input.value);
 		}
 
 

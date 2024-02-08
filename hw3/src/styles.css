@@ -7,6 +7,10 @@ h1 {
 	padding-top: 1%;
 }
 
+h3, h4 {
+	text-align: center;
+}
+
 #maindiv {
 	background-color: bisque;
 	width: 90%;
@@ -16,6 +20,7 @@ h1 {
 
 #temperature_input {
 	max-width: 50%;
+	vertical-align: top;
 }
 
 #input_prompt_div {
@@ -35,4 +40,20 @@ h1 {
 	padding-top: 2%;
 	padding-bottom: 5%;
 	width: 40%;
+	align-items: center;
+	display: flex;
+}
+
+#input_prompt {
+	white-space: nowrap;
+}
+
+#output_div {
+	padding-top: 5%;
+	padding-right: 2%;
+	padding-left: 2%;
+}
+
+#output {
+	padding-top: 2%;
 }
