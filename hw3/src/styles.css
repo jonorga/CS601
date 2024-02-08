@@ -1,0 +1,38 @@
+body {
+	background-color: beige;
+}
+
+h1 {
+	text-align: center;
+	padding-top: 1%;
+}
+
+#maindiv {
+	background-color: bisque;
+	width: 90%;
+	height: 100vh;
+	margin: auto;
+}
+
+#temperature_input {
+	max-width: 50%;
+}
+
+#input_prompt_div {
+	float: left;
+	width: 50%;
+	text-align: center;
+}
+
+#temperature_input_div {
+	float: right;
+	width: 50%;
+	text-align: center;
+}
+
+#input_div {
+	margin: auto;
+	padding-top: 2%;
+	padding-bottom: 5%;
+	width: 40%;
+}
