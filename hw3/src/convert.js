@@ -8,7 +8,7 @@ export function convertTemp() {
 			if (isNaN(Number(fVal)) || Number(fVal) > 250 || Number(fVal) < -250)
 				return "invalid input";
 			if (fVal == "")
-				return "no value entered";
+				return "__° Fahrenheit = __° Celcius";
 			return fVal + "° Fahrenheit = " + Math.floor(((fVal - 32) * 5) / 9) + "° Celcius";
 		}
 		function updateValues() {
