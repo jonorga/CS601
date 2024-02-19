@@ -1,0 +1,11 @@
+TODO:
+DONE Create a paragraph with a brown background and white font color.
+DONE Create a div that is aligned in the center of your page no matter what the size of the page is.
+DONE Take the h1 thru h6 elements and reverse the way they are sized.
+DONE Make any text within a span italic.
+DONE Create a rule that places 1 inch between any div in your page.
+DONE Create a rule that makes any image with the word '_icon' 20 pixels by 20 pixels (height by width)
+DONE Create a rule that has every paragraph with an alt attribute defined to have a margin on its top side of 17 vh
+DONE Create a rule that has a 1 pixel border on any cell in the table.
+DONE Make any list item (the li) not have a list item marker.
+DONE Make a rule that say if any h1 element is used, make the letter spacing 2 pixels apart.
