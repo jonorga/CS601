@@ -1,0 +1,26 @@
+:root {
+	--carmine: #931f1dff;
+	--charcoal: #424b54ff;
+	--moss-green: #8a9b68ff;
+	--sage: #b6c197ff;
+	--midnight-green: #073b4cff;
+}
+
+body {
+	background-color: var(--sage);
+}
+
+#header {
+	text-align: center;
+	background-color: var(--midnight-green);
+	color: var(--moss-green);
+}
+
+#header h1 {
+	padding-top: .2rem;
+	padding-bottom: .5rem;
+}
+
+#recipe_display {
+	display: none;
+}
