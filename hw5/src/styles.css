@@ -24,3 +24,11 @@ body {
 #recipe_display {
 	display: none;
 }
+
+#title_hint {
+	display: none;
+}
+
+#desc_hint {
+	display: none;
+}

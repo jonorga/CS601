@@ -24,19 +24,26 @@
         <div>
           <label for="title_input">Title*:</label>
           <input type="text" name="title_input" id="title_input">
+          <p id="title_hint"><small>Title must be between 1 and 125 words</small></p>
         </div>
         <div>
           <label for="desc_input">Description*:</label>
           <input type="text" name="desc_input" id="desc_input">
+          <p id="desc_hint"><small>Description must be between 1 and 255 words</small></p>
         </div>
         <hr>
         <h4>Recipe steps:</h4>
-        <div>
-          <label for="recipe_step">Step 1*:</label>
-          <input type="text" name="recipe_step" id="recipe_step">
+        <div id="recipe_steps">
+          <div id="div_step1">
+            <label>
+              Step 1*:
+              <input type="text" id="recipe_step1">
+            </label>
+          </div>
         </div>
         <div>
           <button id="add_new_step">Add New Step</button>
+          <button id="delete_step" disabled>Delete Step</button>
         </div>
         <div>
           <button id="finish_recipe" disabled>Finish</button>
