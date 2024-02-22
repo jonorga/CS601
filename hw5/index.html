@@ -19,48 +19,58 @@
       <div id="header">
         <h1>Recipe Application</h1>
       </div>
-      <div id="recipe_input">
-        <h3>Add recipe</h3>
-        <div>
-          <label for="title_input">Title*:</label>
-          <input type="text" name="title_input" id="title_input">
-          <p id="title_hint"><small>Title must be between 1 and 125 words</small></p>
-        </div>
-        <div>
-          <label for="desc_input">Description*:</label>
-          <input type="text" name="desc_input" id="desc_input">
-          <p id="desc_hint"><small>Description must be between 1 and 255 words</small></p>
-        </div>
-        <hr>
-        <h4>Recipe steps:</h4>
-        <div id="recipe_steps">
-          <div id="div_step1">
-            <label>
-              Step 1*:
-              <input type="text" id="recipe_step1">
-            </label>
+      <div id="app_div">
+        <div id="recipe_input">
+          <h3>Add recipe</h3>
+          <div class="text_input">
+            <label for="title_input">Title*:</label>
+            <input type="text" name="title_input" id="title_input">
+            <p id="title_hint"><small>Title must be between 1 and 125 words</small></p>
+          </div>
+          <div class="text_input">
+            <label for="desc_input">Description*:</label>
+            <input type="text" name="desc_input" id="desc_input">
+            <p id="desc_hint"><small>Description must be between 1 and 255 words</small></p>
+          </div>
+          <div class="text_input">
+            <label for="image_input">Image URL:</label>
+            <input type="url" id="image_input">
+          </div>
+          <hr>
+          <h4>Recipe steps:</h4>
+          <div id="recipe_steps">
+            <div id="div_step1" class="text_input">
+              <label>
+                Step 1*:
+                <input type="text" id="recipe_step1">
+              </label>
+            </div>
+          </div>
+          <div>
+            <button id="add_new_step">Add New Step</button>
+            <button id="delete_step" disabled>Delete Step</button>
+          </div>
+          <div>
+            <button id="finish_recipe" disabled>Finish</button>
+            <p id="submit_hint"><small>*Required fields must be filled in before submitting the recipe</small></p>
           </div>
         </div>
-        <div>
-          <button id="add_new_step">Add New Step</button>
-          <button id="delete_step" disabled>Delete Step</button>
+        <div id="recipe_display">
+          <div id="recipe_display_title">
+            <h3 id="title_output">Recipe for:</h3>
+          </div>
+          <p id="desc_output">Description:</p>
+          <hr>
+          <h4>Steps:</h4>
+          <button id="edit_recipe">Edit Recipe</button>
         </div>
-        <div>
-          <button id="finish_recipe" disabled>Finish</button>
-          <p id="submit_hint"><small>*Required fields must be filled in before submitting the recipe</small></p>
-        </div>
-      </div>
-      <div id="recipe_display">
-        <h3 id="title_output">Recipe for:</h3>
-        <p id="desc_output">Description:</p>
-        <hr>
-        <h4>Steps:</h4>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
             crossorigin="anonymous"></script>
+    <!-- Example image URL: https://images.saymedia-content.com/.image/t_share/MTc2MjkwOTI4NTk1NjQxNTE3/list-of-filipino-favorite-street-foods.jpg -->
   </body>
 </html>
 

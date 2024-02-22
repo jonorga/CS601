@@ -32,3 +32,17 @@ body {
 #desc_hint {
 	display: none;
 }
+
+#app_div {
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.text_input {
+	margin-bottom: 1rem;
+	display: flex;
+}
+
+.text_input input {
+	
+}
