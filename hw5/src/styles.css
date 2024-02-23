@@ -10,6 +10,10 @@ body {
 	background-color: var(--sage);
 }
 
+textarea {
+	resize: none;
+}
+
 #header {
 	text-align: center;
 	background-color: var(--midnight-green);
@@ -21,16 +25,23 @@ body {
 	padding-bottom: .5rem;
 }
 
+#main_div {
+	padding-bottom: 20px;
+}
+
 #recipe_display {
 	display: none;
+	text-align: center;
 }
 
 #title_hint {
 	display: none;
+	text-align: center;
 }
 
 #desc_hint {
 	display: none;
+	text-align: center;
 }
 
 #app_div {
@@ -41,8 +52,40 @@ body {
 .text_input {
 	margin-bottom: 1rem;
 	display: flex;
+	justify-content: space-between;
+	flex-grow: 1;
 }
 
-.text_input input {
-	
+.text_input input, textarea {
+	width: 70%;
 }
+
+#steps_display_div {
+	text-align: left;
+}
+
+input[type="text"], input[type="url"], textarea {
+	border-radius: 5px;
+}
+
+#desc_input {
+	padding-bottom: 6rem;
+	border: 2px inset;
+	border-color: rgb(118, 118, 118);
+}
+
+#step_buttons {
+	padding-top: 1rem;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+#submit_div {
+	padding-top: 1rem;
+}
+
+#desc_output {
+	padding-top: .5rem;
+}
+

@@ -1,17 +1,33 @@
 export function AddNewRecipe() {
 	document.addEventListener("DOMContentLoaded", function() {
 		// Helper method if image is not valid
-		function imageNotValid() {
-			console.log("bad");
+		function imageNotValid(...imageSubmit) {
+			let imgSubmit;
+			if (imageSubmit.length > 0)
+				imgSubmit = imageSubmit[0];
+			else
+				imgSubmit = true;
+
+			console.log(imgSubmit);
+
 			const errMessage = document.createElement("p");
-			errMessage.innerHTML = "Image URL was not valid";
+			if (imgSubmit) {
+				errMessage.innerHTML = "Image URL was not valid";
+			}
+			else {
+				errMessage.innerHTML = "No image URL provided";
+			}
+			
 			document.getElementById("recipe_display_title").appendChild(errMessage);
 		}
 
 
 		// Helper method if image is valid
-		function imageLoaded(img_var) {
-			const img = img_var || document.getElementById("recipe_image");
+		function imageLoaded() {
+			const img = document.createElement("img");
+			const recipe_img = document.getElementById("image_input").value;
+			img.src = recipe_img;
+			img.id = "recipe_image";
 			img.width = 255;
 			img.height = 255;
 			document.getElementById("recipe_display_title").appendChild(img);
@@ -41,7 +57,7 @@ export function AddNewRecipe() {
 				}
 			}
 			else {
-				imageNotValid();
+				imageNotValid(false);
 			}
 
 			const steps_display_div = document.createElement("div");
@@ -74,7 +90,7 @@ export function AddNewRecipe() {
 			newStepDiv.id = "div_step" + currentStep;
 			newStepDiv.classList.add("text_input");
 			const newStepLabel = document.createElement("label");
-			newStepLabel.for = "recipe_step" + currentStep;
+			newStepLabel.htmlFor = "recipe_step" + currentStep;
 			newStepLabel.innerHTML = "Step " + currentStep +  ":";
 
 			const newStepInput = document.createElement("input");
@@ -84,7 +100,7 @@ export function AddNewRecipe() {
 			document.getElementById("recipe_steps").appendChild(newStepDiv);
 
 			newStepDiv.appendChild(newStepLabel);
-			newStepLabel.appendChild(newStepInput);
+			newStepDiv.appendChild(newStepInput);
 			document.getElementById("delete_step").disabled = false;
 		});
 
