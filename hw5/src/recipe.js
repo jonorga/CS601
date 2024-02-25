@@ -1,18 +1,80 @@
 export function AddNewRecipe() {
 	document.addEventListener("DOMContentLoaded", function() {
+		// Helper method if image is valid
+		function imageLoadedPrevious(event) {
+			console.log(event.currentTarget);
+			const img = document.createElement("img");
+			const recipe_img = document.getElementById("image_input").value;
+			img.src = recipe_img;
+			img.id = "recipe_image";
+			img.width = 255;
+			img.height = 255;
+			document.getElementById("recipe_display_title").appendChild(img);
+		}
+
+		function ViewRetrievedRecipe(recipe) {
+			const recipe_title = recipe.title;
+			const recipe_desc = recipe.description;
+			document.getElementById("title_output").innerHTML = "Recipe for: " + recipe_title;
+			document.getElementById("desc_output").innerHTML = "Description: " + recipe_desc;
+
+			const recipe_img = recipe.image_URL;
+			const img = document.createElement("img");
+			img.src = recipe_img;
+			img.id = "recipe_image";
+			if (recipe_img != "")
+			{
+				if (img.complete) {
+					imageLoadedPrevious(img);
+				}
+				else {
+					img.addEventListener("load", imageLoadedPrevious);
+					img.addEventListener("error", imageNotValid);
+				}
+			}
+			else {
+				imageNotValid(false);
+			}
+
+			const steps_display_div = document.createElement("div");
+			steps_display_div.id = "steps_display_div";
+			document.getElementById("recipe_display").appendChild(steps_display_div);
+			document.getElementById("edit_recipe").insertAdjacentElement("beforebegin", steps_display_div);
+			const all_steps = recipe.steps;
+
+			let step_count = 1;
+			let valid_steps = [ ];
+			for (let i = 0; i < all_steps.length; i++) {
+				const step_text = all_steps[i];
+				if (step_text != "") {
+					const step_element = document.createElement("p");
+					step_element.innerHTML = "Step " + step_count + ": " + step_text;
+					steps_display_div.appendChild(step_element);
+					valid_steps.push(step_text);
+					step_count++;
+				}
+			}
+		}
+
 		// View specific recipe button
 		function ViewRecipeButton(event) {
 			// TODO: get the recipe num from id below, pull from memory, populate fields and show
-			alert(event.currentTarget.parentElement.id);
-			//const fullRecipe = JSON.parse(localStorage.getItem(i + 1));
-			//fullRecipe.steps = JSON.parse(fullRecipe.steps);
+			const recipe_name = event.currentTarget.parentElement.id.substring(13);
+
+			const fullRecipe = JSON.parse(localStorage.getItem(recipe_name));
+			fullRecipe.steps = JSON.parse(fullRecipe.steps);
+
+			ViewRetrievedRecipe(fullRecipe);
+
+			document.getElementById("recipe_list").style.display = "none";
+			document.getElementById("recipe_display").style.display = "block";
 		}
 
 
 		// Helper method to add retrieved recipe to list
-		function AddRecipeToList(recipe, recipe_num) {
+		function AddRecipeToList(recipe) {
 			const recipeOutput = document.createElement("div");
-			recipeOutput.id = "recipe" + recipe_num;
+			recipeOutput.id = "indiv_recipe_" + recipe.title;
 			const recipe_title = document.createElement("p");
 
 
@@ -46,25 +108,18 @@ export function AddNewRecipe() {
 
 		// Check for previous recipes
 		function CheckForPreviousRecipe() {
-			console.log(localStorage.length);
-			if (localStorage.length <= 1) {
+			if (localStorage.length == 0) {
 				const noRecipe = document.createElement("p");
 				noRecipe.innerHTML = "No previously saved recipes found";
 				document.getElementById("add_new_recipe").insertAdjacentElement("beforebegin", noRecipe);
-				if (localStorage.length == 0) {
-					localStorage.setItem("r_list_len", 0);
-					console.log("Inital local storage set");
-				}
 			}
 			else {
-				const listLen = localStorage.getItem("r_list_len");
-				let i = 0;
-				while (i < listLen) {
-					const fullRecipe = JSON.parse(localStorage.getItem(i + 1));
+				const allRecipes = Object.keys(localStorage);
+				allRecipes.forEach( function(r) { 
+					const fullRecipe = JSON.parse(localStorage.getItem(r));
 					fullRecipe.steps = JSON.parse(fullRecipe.steps);
-					AddRecipeToList(fullRecipe, i + 1);
-					i++;
-				}
+					AddRecipeToList(fullRecipe);
+				 } );
 			}
 		}
 		CheckForPreviousRecipe();
@@ -171,9 +226,8 @@ export function AddNewRecipe() {
 				"steps" : JSON.stringify(valid_steps)
 			};
 
-			const currentListLen = Number(localStorage.getItem("r_list_len")) + 1;
-			localStorage.setItem(currentListLen, JSON.stringify(fullRecipe));
-			localStorage.setItem("r_list_len", currentListLen);
+			
+			localStorage.setItem(fullRecipe.title, JSON.stringify(fullRecipe));
 		});
 
 
