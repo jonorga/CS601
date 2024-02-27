@@ -93,3 +93,11 @@ input[type="text"], input[type="url"], textarea {
 	padding-top: .5rem;
 }
 
+#add_new_recipe {
+	margin-top: 1rem;
+}
+
+.list_button_space {
+	margin-right: 1rem;
+}
+
