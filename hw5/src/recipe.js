@@ -1,4 +1,4 @@
-export function AddNewRecipe() {
+export function RecipeApplication() {
 	document.addEventListener("DOMContentLoaded", function() {
 		// Rehydrate recipe list page
 		function RehydrateRecipeListPage() {
@@ -8,7 +8,7 @@ export function AddNewRecipe() {
 			if (no_data_p.length == 1)
 				no_data_p[0].remove();
 			
-			Object.keys(all_recipe_divs).forEach( () => {all_recipe_divs[0].remove()} );
+			Object.keys(all_recipe_divs).map( () => {all_recipe_divs[0].remove()} );
 			CheckForPreviousRecipe();
 		}
 
@@ -186,7 +186,7 @@ export function AddNewRecipe() {
 			}
 			else {
 				const allRecipes = Object.keys(localStorage);
-				allRecipes.forEach( function(r) { 
+				allRecipes.map( function(r) { 
 					const fullRecipe = JSON.parse(localStorage.getItem(r));
 					fullRecipe.steps = JSON.parse(fullRecipe.steps);
 					AddRecipeToList(fullRecipe);
