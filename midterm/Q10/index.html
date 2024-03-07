@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				for (let i = 3; i <= 5; i++) {
+					const new_sect = document.createElement("p");
+					new_sect.id = "p" + i;
+					const t = new Date();
+					new_sect.innerHTML = t;
+					document.querySelector(`#div${i}`).appendChild(new_sect);
+				}
+
+				for (let i = 1; i <= 5; i++) {
+					if (i % 2 == 1) {
+						document.querySelector(`#p${i}`).style.backgroundColor = "pink";
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="div1"><p id="p1">I am the first paragraph</p></div>
+		<div id="div2"><p id="p2">I am the second paragraph</p></div>
+		<div id="div3"></div>
+		<div id="div4"></div>
+		<div id="div5"></div>
+	</body>
+</html>
