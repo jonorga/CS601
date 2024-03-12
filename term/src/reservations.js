@@ -18,10 +18,7 @@ let current_selection = {
 	"month": -1
 };
 
-let dates_picked = {
-	"d1": null,
-	"d2": null
-};
+let dates_selected = [ ];
 
 function cardinalDate(num) {
 	if (num > 10 && num < 14)
@@ -83,7 +80,7 @@ function setMonth(set_date) {
 				day.innerHTML = day_count;
 				if (this_month && day_count == today.getDate()) {
 					day.style.backgroundColor = "#D4F0F8";
-					day.setAttribute("istoday", "true");
+					day.setAttribute("istoday", "");
 				}
 				else if (!this_month) {
 					day.style.backgroundColor = "white";
@@ -106,39 +103,82 @@ function setMonth(set_date) {
 	}
 }
 
+let selection_in_process = false;
 function calendarEvent(event) {
 	const target = event.currentTarget;
 	if (event.type == "click") {
-		if (target.hasAttribute("selected")) {
+		// TODO: redo the selection process
+		if (!target.hasAttribute("selected") && !selection_in_process) {
+			target.style.backgroundColor = "#9F9F9F";
+			target.setAttribute("selected", "");
+			dates_selected.push(new Date(current_selection.year, current_selection.month, target.innerHTML));
+			document.querySelector("#selections_p").innerHTML = "Date selected: " 
+				+ months[dates_selected[0].getMonth()] + " " + cardinalDate(dates_selected[0].getDate()) + ", "
+				+ dates_selected[0].getFullYear();
+			selection_in_process = true;
+		} else if (target.hasAttribute("selected")) {
 			if (target.hasAttribute("istoday"))
 				target.style.backgroundColor = "#D4F0F8";
 			else
 				target.style.backgroundColor = "white";
 			target.removeAttribute("selected");
+			dates_selected.pop();
+			document.querySelector("#selections_p").innerHTML = "Date selected: none";
+			selection_in_process = false;
 		}
-		else {
-			target.setAttribute("selected", "true");
-			target.style.backgroundColor = "#9F9F9F";
-			if (dates_picked.d1 == null) {
-				dates_picked.d1 = new Date(current_selection.year, current_selection.month, target.innerHTML);
-				document.querySelector("#selections_p").innerHTML = "Date selected: " 
-					+ months[dates_picked.d1.getMonth()] + " " + cardinalDate(dates_picked.d1.getDate()) + ", "
-					+ dates_picked.d1.getFullYear();
-			}
-			else if (dates_picked.d2 == null) {
-				dates_picked.d2 = new Date(current_selection.year, current_selection.month, target.innerHTML);
-				const d1_formatted = months[dates_picked.d1.getMonth()] + " " 
-					+ cardinalDate(dates_picked.d1.getDate()) + ", " + dates_picked.d1.getFullYear();
-				const d2_formatted = months[dates_picked.d2.getMonth()] + " "
-					+ cardinalDate(dates_picked.d2.getDate()) + ", " + dates_picked.d2.getFullYear();
 
-				if (dates_picked.d1 < dates_picked.d2) {
-					document.querySelector("#selections_p").innerHTML = "Date selected: " 
-						+ d1_formatted + " - " + d2_formatted;
-				}
-				else {
-					document.querySelector("#selections_p").innerHTML = "Date selected: " 
-						+ d2_formatted + " - " + d1_formatted;
+
+
+		// if (target.hasAttribute("selected")) {
+		// 	if (target.hasAttribute("istoday"))
+		// 		target.style.backgroundColor = "#D4F0F8";
+		// 	else
+		// 		target.style.backgroundColor = "white";
+
+		// 	target.removeAttribute("selected");
+		// 	dates_selected.splice(dates_selected.indexOf(new Date(current_selection.year, current_selection.month, target.innerHTML)), 1);
+		// }
+		// else {
+		// 	target.setAttribute("selected", "");
+		// 	target.style.backgroundColor = "#9F9F9F";
+		// 	if (dates_selected.length == 0) {
+		// 		dates_selected.push(new Date(current_selection.year, current_selection.month, target.innerHTML));
+		// 		document.querySelector("#selections_p").innerHTML = "Date selected: " 
+		// 			+ months[dates_selected[0].getMonth()] + " " + cardinalDate(dates_selected[0].getDate()) + ", "
+		// 			+ dates_selected[0].getFullYear();
+		// 	}
+		// 	else if (dates_selected.length == 1) {
+		// 		dates_selected.push(new Date(current_selection.year, current_selection.month, target.innerHTML));
+		// 		const d1_formatted = months[dates_selected[0].getMonth()] + " " 
+		// 			+ cardinalDate(dates_selected[0].getDate()) + ", " + dates_selected[0].getFullYear();
+		// 		const d2_formatted = months[dates_selected[1].getMonth()] + " " 
+		// 			+ cardinalDate(dates_selected[1].getDate()) + ", " + dates_selected[1].getFullYear();
+
+		// 		if (dates_selected[0] < dates_selected[1]) {
+		// 			document.querySelector("#selections_p").innerHTML = "Date selected: " 
+		// 				+ d1_formatted + " - " + d2_formatted;
+		// 		}
+		// 		else {
+		// 			document.querySelector("#selections_p").innerHTML = "Date selected: " 
+		// 				+ d2_formatted + " - " + d1_formatted;
+		// 		}
+		// 	}
+		// }
+	}
+	else if (selection_in_process) {
+		// Every square between target and selected should have the 9F9F9F color
+		if (dates_selected[0].getMonth() == current_selection.month && dates_selected[0].getFullYear() == current_selection.year) {
+			const low_selected = dates_selected[0].getDate() <= target.innerHTML ? dates_selected[0].getDate() : Number(target.innerHTML);
+			const high_selected = dates_selected[0].getDate() > target.innerHTML ? dates_selected[0].getDate() : Number(target.innerHTML);
+			console.log(low_selected, high_selected);
+			for (let i = 0; i <= 41; i++) {
+				const temp = document.querySelector(`#day${i}`);
+				if (temp.innerHTML >= low_selected && temp.innerHTML <= high_selected) {
+					temp.style.backgroundColor = "#9F9F9F";
+				} else if (temp.hasAttribute("istoday")) {
+					temp.style.backgroundColor = "#D4F0F8";
+				} else {
+					temp.style.backgroundColor = "white";
 				}
 			}
 		}
