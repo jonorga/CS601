@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>fetch example</title>
+        <meta charset="utf-8"/>
+        <link rel="icon" type="image/x-icon" href="bu_icon.ico">
+    </head>
+<body>
+The value of json.title should appear below:
+<h1 id="demo"></h1>
+<script>
+    window.addEventListener("DOMContentLoaded", event => {
+        fetch("https://jsonplaceholder.typicode.com/posts/3")
+            .then(result => result.json())
+            .then(json => document.getElementById("demo").innerHTML = json.title);
+    });
+</script>
+</body>
+</html>

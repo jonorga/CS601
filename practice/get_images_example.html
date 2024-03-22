@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Axios Example: GET Images</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <h1>Using Axios with GET</h1>
+        <select>
+            <option value="1">Choose many images to pull down?</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+        <select>    
+        <div id="result"></div>    
+        <script>
+            document.querySelector("select").addEventListener("change", event => {
+                document.querySelector("#result").innerHTML = "";
+                const targetUrl = `https://dog.ceo/api/breeds/image/random/${event.target.value}`;
+                axios.get(targetUrl)
+                .then(response => {
+                    response.data.message.forEach(image => { document.querySelector("#result").innerHTML += `<img src="${image}" alt="dog"/>`; });
+                }).catch( error => { console.error(error); 
+                }).finally( () => { console.log("complete");
+                });
+            });
+            
+        </script>
+    </body>
+</html>

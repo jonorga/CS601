@@ -77,7 +77,17 @@
 			</div>
 			<div id=selections_div>
 				<p id="selections_p">Dates selected: none</p>
+				<button id="reset_selection">Reset election</button>
+			</div>
+			<div>
+				<input type="date" id="date1_val" name="date1">
+				<input type="date" id="date2_val" name="date2">
+				<input type="submit" id="submit_selection">
 			</div>
 		</div>
 	</body>
 </html>
+
+
+
+

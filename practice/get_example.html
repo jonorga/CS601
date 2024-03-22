@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Axios Example: GET Request</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <h1>Using Axios with GET (See the console as well)</h1>
+        <div><button type="button">Run Example</button></div>
+        <section id="target"></section>
+        <script>
+            document.querySelector("button").addEventListener("click", event => {
+                const targetUrl = 'https://dog.ceo/api/breeds/list/all';
+                const targetOutput = document.getElementById("target");
+                axios.get(targetUrl)
+                .then(response => {
+                    Object.keys(response.data.message).forEach( key => {
+                        targetOutput.innerHTML += `<div><b>key:</b> ${key} -><b> value:</b> ${response.data.message[key]}</div>`;
+                        console.log(key, response.data.message[key]);
+                    });                    
+                }).catch( error => { console.error(error); 
+                }).finally( () => { console.log("complete");
+                });
+            });
+        </script>
+    </body>
+</html>

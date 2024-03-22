@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>XML Parsing</title>
+        <meta charset="utf-8"/>
+        <link rel="icon" type="image/x-icon" href="bu_icon.ico">
+    </head>
+<body>
+
+<p id="demo"></p>
+
+<script>
+    window.addEventListener("DOMContentLoaded", event => {
+        fetch("books.xml")
+            .then(result => {return result.text();})
+            .then(xml => {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xml, "text/xml");
+                const titleColl = xmlDoc.getElementsByTagName("title");
+
+                let htmlOutput = "";
+
+                for (let i = 0; i < titleColl.length; i++ ) {
+                    htmlOutput += `<div> ${titleColl[i].innerHTML}</div>`;
+                }
+                
+                document.querySelector("#demo").innerHTML = htmlOutput;
+        });
+    });
+   
+</script>
+
+</body>
+</html>
