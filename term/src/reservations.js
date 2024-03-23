@@ -295,11 +295,14 @@ function resetSelection() {
 	}
 }
 
-async function retrievePreviousDates2() {
+function retrievePreviousDates2() {
 	const formdata = new FormData();
-	formdata.append("some", "please");
+	const date1 = document.querySelector("#date1_val").value;
+	const date2 = document.querySelector("#date2_val").value;;
+	formdata.append("date1", date1);
+	formdata.append("date2", date2);
 
-	const request = new Request('test.php', {
+	const request = new Request('reservations.php', {
 		method: 'POST',
     	body: formdata
 	});
@@ -307,11 +310,30 @@ async function retrievePreviousDates2() {
 	fetch(request)
 		.then((res) => res.text())
 		.then((text) => {
-			console.log(" 4 " + text);
+			console.log("6 " + text);
 		});
+}
 
-	
-	//console.log(request.body);
+
+function checkDateValidation() {
+	const formdata = new FormData();
+	const date1 = document.querySelector("#date1_val").value;
+	const date2 = document.querySelector("#date2_val").value;;
+	formdata.append("date1", date1);
+	formdata.append("date2", date2);
+
+	const request = new Request('test.php', {
+		method: 'POST',
+    	body: formdata
+	});
+
+	console.log("JS submitted: " + date1 + " and " + date2 + "\n");
+
+	fetch(request)
+		.then((res) => res.text())
+		.then((text) => {
+			console.log("PHP returned: " + text + "\nend of PHP");
+		});
 }
 
 
@@ -322,7 +344,7 @@ export function initializePage() {
 		current_selection.month = today.getMonth();
 		if (document.querySelector("#main_container").hasAttribute("cal_info")) retrievePreviousDates();
 
-		document.querySelector("#submit_selection").addEventListener("click", retrievePreviousDates2);
+		document.querySelector("#submit_selection").addEventListener("click", checkDateValidation);
 
 		setMonth(today);
 
