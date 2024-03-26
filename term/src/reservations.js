@@ -18,6 +18,7 @@ const color_today = "#D4F0F8";
 const color_invalid = "#E4E4E4";
 const color_selected = "#9F9F9F";
 const color_gradient = "repeating-linear-gradient(135deg, #5481FF, #5481FF 15%, #5C5C5C 15%, #5C5C5C 21%)";
+const color_gradient_sel = "repeating-linear-gradient(135deg, #68DDFF, #68DDFF 15%, #5C5C5C 15%, #5C5C5C 21%)";
 
 let current_selection = {
 	"year": -1,
@@ -66,6 +67,7 @@ function retrievePreviousDates() {
 	fetch("get_reservations.php")
 		.then((res) => res.text())
 		.then((text) => {
+			booked_dates.length = 0;
 			const attr = text.split(",");
 			attr.pop(); // get rid of the index created by the trailing comma
 			attr.forEach( function (val, ind) {
@@ -87,8 +89,8 @@ function retrievePreviousDates() {
 		});
 }
 
+
 function thisMonthsBookedDates(set_date) {
-	booked_dates.forEach((d) => console.log(d));
 	const booked_dates_cur = booked_dates.filter((d) => 
 		( d[1].getMonth() == set_date.getMonth() && d[1].getYear() == set_date.getYear() )
 		|| ( d[2].getMonth() == set_date.getMonth() && d[2].getYear() == set_date.getYear() )
@@ -210,7 +212,8 @@ function setMonth(set_date) {
 function getClickedReservation(text) {
 	const day_of_month = text.includes("-") ? text.split("-")[0].slice(0,-1) : text;
 	const target_date = new Date(current_selection.year, current_selection.month, day_of_month);
-	const output = booked_dates.filter((d) => ( (d[1] <= target_date) && (d[2] >= target_date) ))[0];
+	const output_raw = booked_dates.filter((d) => ( (d[1] <= target_date) && (d[2] >= target_date) ))[0];
+	const output = output_raw.map(elem => elem);
 	output[1] = output[1].toISOString().split("T")[0];
 	output[2] = output[2].toISOString().split("T")[0];
 	return output;
@@ -228,6 +231,7 @@ function calendarEvent(event) {
 			reservation_target = clicked_reservation;
 			selection_complete = true;
 			document.querySelector("#delete_res_btn").disabled = false;
+			document.querySelector("#edit_res_btn").disabled = false;
 			document.querySelector("#reservation_select").innerHTML = 
 				`Reservation selected: ${clicked_reservation[0]}_${clicked_reservation[1]}_${clicked_reservation[2]}`;
 		}
@@ -320,6 +324,7 @@ function calendarEvent(event) {
 	}
 }
 
+
 function resetSelection() {
 	selection_in_progress = false;
 	selection_complete = false;
@@ -328,6 +333,7 @@ function resetSelection() {
 	dates_selected = [ ];
 	reservation_target = null;
 	document.querySelector("#delete_res_btn").disabled = true;
+	document.querySelector("#edit_res_btn").disabled = true;
 	document.querySelector("#selections_p").innerHTML = "Dates selected: none";
 	document.querySelector("#reservation_select").innerHTML = "Reservation selected: none";
 	for (let i = 0; i <= 41; i++) {
@@ -361,6 +367,7 @@ function submitDate() {
 			retrievePreviousDates();
 			const temp = document.querySelector("#server_status").innerHTML;
 			document.querySelector("#server_status").innerHTML = `${temp} Server said: ${text}`;
+			resetSelection();
 		})
 		.catch((err) => {
 			const temp = document.querySelector("#server_status").innerHTML;
@@ -382,10 +389,36 @@ function deleteReservation() {
 	fetch(request)
 		.then((res) => res.text())
 		.then((text) => {
-			retrievePreviousDates();
 			const temp = document.querySelector("#server_status").innerHTML;
 			document.querySelector("#server_status").innerHTML = `${temp} Server said: ${text}`;
-		})
+			retrievePreviousDates();
+			resetSelection();
+		});
+}
+
+
+function editReservation() {
+	const formdata = new FormData();
+	formdata.append("date1", reservation_target[1]);
+	formdata.append("date2", reservation_target[2]);
+	const date1 = document.querySelector("#date1_val").value;
+	const date2 = document.querySelector("#date2_val").value;
+	formdata.append("new_date1", date1);
+	formdata.append("new_date2", date2);
+
+	const request = new Request('edit_reservation.php', {
+		method: 'POST',
+		body: formdata
+	});
+
+	fetch(request)
+		.then((res) => res.text())
+		.then((text) => {
+			const temp = document.querySelector("#server_status").innerHTML;
+			document.querySelector("#server_status").innerHTML = `${temp} Server said: ${text}`;
+			retrievePreviousDates();
+			resetSelection();
+		});
 }
 
 
@@ -398,6 +431,7 @@ export function initializePage() {
 
 		document.querySelector("#submit_selection").addEventListener("click", submitDate);
 		document.querySelector("#delete_res_btn").addEventListener("click", deleteReservation);
+		document.querySelector("#edit_res_btn").addEventListener("click", editReservation);
 
 		
 

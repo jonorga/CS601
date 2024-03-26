@@ -79,6 +79,7 @@
 				<p id="server_status"></p>
 				<p id="reservation_select">Reservation selected: none</p>
 				<button id="delete_res_btn" disabled>Delete reservation</button>
+				<button id="edit_res_btn" disabled>Edit reservation</button>
 				<p id="selections_p">Dates selected: none</p>
 				<button id="reset_selection">Reset selection</button>
 			</div>
