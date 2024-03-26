@@ -76,8 +76,11 @@
 				</div>
 			</div>
 			<div id=selections_div>
+				<p id="server_status"></p>
+				<p id="reservation_select">Reservation selected: none</p>
+				<button id="delete_res_btn" disabled>Delete reservation</button>
 				<p id="selections_p">Dates selected: none</p>
-				<button id="reset_selection">Reset election</button>
+				<button id="reset_selection">Reset selection</button>
 			</div>
 			<div>
 				<input type="date" id="date1_val" name="date1">

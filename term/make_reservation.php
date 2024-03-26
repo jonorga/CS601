@@ -32,16 +32,15 @@
 		
 		$result = $mysqli->query($sql);
 		if ($result !== FALSE) {
-			echo $result -> num_rows;
 			if ($result -> num_rows > 0) {
-				echo "Dates unavailable";
+				echo "Selected dates unavailable";
 			}
 			else {
 				$sql = "INSERT INTO TestTable (Name, StartDate, EndDate) VALUES ('Bob', '" 
 					. $date1 . "', '" . $date2 ."')";
 				$result = $mysqli->query($sql);
 				if ($result !== FALSE) {
-					echo "Reservation made";
+					echo "Reservation made!";
 				} else {
 					echo 'error: ' . $mysqli->error;
 				}
@@ -56,5 +55,4 @@
 		}
 	}
 	$mysqli->close();
-	echo "\nPHP complete"
 ?>

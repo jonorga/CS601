@@ -26,6 +26,7 @@ let current_selection = {
 
 let dates_selected = [ ];
 const booked_dates = [ ];
+let reservation_target = null;
 
 function cardinalDate(num) {
 	if (num > 10 && num < 14)
@@ -62,24 +63,38 @@ function nextMonth() {
 }
 
 function retrievePreviousDates() {
-	const attr = document.querySelector("#main_container").getAttribute("cal_info").split(",");
-	attr.pop(); // get rid of the index created by the trailing comma
-	attr.forEach( function (val, ind) {
-		let temp = val.split("_");
-		const date1 = temp[1].split("-");
-		const date2 = temp[2].split("-");
-		temp[1] = new Date(date1[0], date1[1]-1, date1[2]);
-		temp[2] = new Date(date2[0], date2[1]-1, date2[2]);
-		booked_dates.push(temp);
-	} );
+	fetch("get_reservations.php")
+		.then((res) => res.text())
+		.then((text) => {
+			const attr = text.split(",");
+			attr.pop(); // get rid of the index created by the trailing comma
+			attr.forEach( function (val, ind) {
+				let temp = val.split("_");
+				const date1 = temp[1].split("-");
+				const date2 = temp[2].split("-");
+				temp[1] = new Date(date1[0], date1[1]-1, date1[2]);
+				temp[2] = new Date(date2[0], date2[1]-1, date2[2]);
+				booked_dates.push(temp);
+			} );
+			setMonth(new Date(current_selection.year, current_selection.month));
+			const temp = document.querySelector("#server_status").innerHTML;
+			document.querySelector("#server_status").innerHTML = `${temp} Previous dates retrieved`;
+
+		})
+		.catch((err) => {
+			const temp = document.querySelector("#server_status").innerHTML;
+			document.querySelector("#server_status").innerHTML = `${temp} Error while retrieving previous dates ${err}`;
+		});
 }
 
 function thisMonthsBookedDates(set_date) {
+	booked_dates.forEach((d) => console.log(d));
 	const booked_dates_cur = booked_dates.filter((d) => 
 		( d[1].getMonth() == set_date.getMonth() && d[1].getYear() == set_date.getYear() )
 		|| ( d[2].getMonth() == set_date.getMonth() && d[2].getYear() == set_date.getYear() )
 	);
 	const booked_days = [ ];
+	const booked_names = [ ];
 	booked_dates_cur.forEach( (val) => {
 		let end_date = -1;
 		let counter = -1;
@@ -93,12 +108,20 @@ function thisMonthsBookedDates(set_date) {
 		} else {
 			end_date = daysInMonth(set_date.getMonth(), set_date.getYear());
 		}
+
+		booked_days.push(counter);
+		booked_names.push(val[0]);
+		counter++;
 		while (counter <= end_date) {
 			booked_days.push(counter);
+			booked_names.push("");
 			counter++;
 		}
 	});
-	return booked_days;
+
+	
+
+	return [booked_days, booked_names];
 }
 
 
@@ -135,8 +158,10 @@ function setMonth(set_date) {
 				day.removeAttribute("selected");
 				day.removeAttribute("booked");
 				
-				if (month_has_bookings && booked_dates_cur.includes(day_count)) {
+				if (month_has_bookings && booked_dates_cur[0].includes(day_count)) {
 					day.style.backgroundImage = color_gradient;
+					if (booked_dates_cur[1][booked_dates_cur[0].indexOf(day_count)] != "")
+						day.innerHTML = `${day_count} - ${booked_dates_cur[1][booked_dates_cur[0].indexOf(day_count)]}`;
 					day.setAttribute("booked", "");
 				}
 				else if (selection_in_progress 
@@ -181,14 +206,32 @@ function setMonth(set_date) {
 	}
 }
 
+
+function getClickedReservation(text) {
+	const day_of_month = text.includes("-") ? text.split("-")[0].slice(0,-1) : text;
+	const target_date = new Date(current_selection.year, current_selection.month, day_of_month);
+	const output = booked_dates.filter((d) => ( (d[1] <= target_date) && (d[2] >= target_date) ))[0];
+	output[1] = output[1].toISOString().split("T")[0];
+	output[2] = output[2].toISOString().split("T")[0];
+	return output;
+}
+
+
 let selection_in_progress = false;
 let selection_complete = false;
 function calendarEvent(event) {
-	if (selection_complete || event.currentTarget.hasAttribute("invalid") || 
-		event.currentTarget.hasAttribute("booked")) return;
+	if (selection_complete || event.currentTarget.hasAttribute("invalid")) return;
 	const target = event.currentTarget;
 	if (event.type == "click") {
-		if (!target.hasAttribute("selected") && !selection_in_progress) {
+		if (target.hasAttribute("booked") && !selection_in_progress) {
+			const clicked_reservation = getClickedReservation(target.innerHTML);
+			reservation_target = clicked_reservation;
+			selection_complete = true;
+			document.querySelector("#delete_res_btn").disabled = false;
+			document.querySelector("#reservation_select").innerHTML = 
+				`Reservation selected: ${clicked_reservation[0]}_${clicked_reservation[1]}_${clicked_reservation[2]}`;
+		}
+		else if (!target.hasAttribute("selected") && !selection_in_progress) {
 			target.style.backgroundColor = color_selected;
 			target.setAttribute("selected", "");
 			dates_selected.push(new Date(current_selection.year, current_selection.month, target.innerHTML));
@@ -227,6 +270,7 @@ function calendarEvent(event) {
 		}
 	}
 	else if (selection_in_progress) {
+		if (target.hasAttribute("booked")) return;
 		if (dates_selected[0].getMonth() == current_selection.month && dates_selected[0].getFullYear() == current_selection.year) {
 			const low_selected = dates_selected[0].getDate() <= target.innerHTML ? dates_selected[0].getDate() : Number(target.innerHTML);
 			const high_selected = dates_selected[0].getDate() > target.innerHTML ? dates_selected[0].getDate() : Number(target.innerHTML);
@@ -262,7 +306,7 @@ function calendarEvent(event) {
 			}
 		}
 	}
-	else if (target.hasAttribute("selected")) {
+	else if (target.hasAttribute("selected") || target.hasAttribute("booked")) {
 		return;
 	}
 	else if (event.type == "mouseover") {
@@ -282,7 +326,10 @@ function resetSelection() {
 	document.querySelector("#date1_val").value = null;
 	document.querySelector("#date2_val").value = null;
 	dates_selected = [ ];
+	reservation_target = null;
+	document.querySelector("#delete_res_btn").disabled = true;
 	document.querySelector("#selections_p").innerHTML = "Dates selected: none";
+	document.querySelector("#reservation_select").innerHTML = "Reservation selected: none";
 	for (let i = 0; i <= 41; i++) {
 		const temp = document.querySelector(`#day${i}`);
 		if (temp.hasAttribute("invalid")) continue;
@@ -295,14 +342,15 @@ function resetSelection() {
 	}
 }
 
-function retrievePreviousDates2() {
+
+function submitDate() {
 	const formdata = new FormData();
 	const date1 = document.querySelector("#date1_val").value;
-	const date2 = document.querySelector("#date2_val").value;;
+	const date2 = document.querySelector("#date2_val").value;
 	formdata.append("date1", date1);
 	formdata.append("date2", date2);
 
-	const request = new Request('reservations.php', {
+	const request = new Request('make_reservation.php', {
 		method: 'POST',
     	body: formdata
 	});
@@ -310,30 +358,34 @@ function retrievePreviousDates2() {
 	fetch(request)
 		.then((res) => res.text())
 		.then((text) => {
-			console.log("6 " + text);
+			retrievePreviousDates();
+			const temp = document.querySelector("#server_status").innerHTML;
+			document.querySelector("#server_status").innerHTML = `${temp} Server said: ${text}`;
+		})
+		.catch((err) => {
+			const temp = document.querySelector("#server_status").innerHTML;
+			document.querySelector("#server_status").innerHTML = `${temp} Server error`;
 		});
 }
 
 
-function checkDateValidation() {
+function deleteReservation() {
 	const formdata = new FormData();
-	const date1 = document.querySelector("#date1_val").value;
-	const date2 = document.querySelector("#date2_val").value;;
-	formdata.append("date1", date1);
-	formdata.append("date2", date2);
+	formdata.append("date1", reservation_target[1]);
+	formdata.append("date2", reservation_target[2]);
 
-	const request = new Request('test.php', {
+	const request = new Request('delete_reservation.php', {
 		method: 'POST',
-    	body: formdata
+		body: formdata
 	});
-
-	console.log("JS submitted: " + date1 + " and " + date2 + "\n");
 
 	fetch(request)
 		.then((res) => res.text())
 		.then((text) => {
-			console.log("PHP returned: " + text + "\nend of PHP");
-		});
+			retrievePreviousDates();
+			const temp = document.querySelector("#server_status").innerHTML;
+			document.querySelector("#server_status").innerHTML = `${temp} Server said: ${text}`;
+		})
 }
 
 
@@ -342,11 +394,12 @@ export function initializePage() {
 		const today = new Date();
 		current_selection.year = today.getFullYear();
 		current_selection.month = today.getMonth();
-		if (document.querySelector("#main_container").hasAttribute("cal_info")) retrievePreviousDates();
+		retrievePreviousDates();
 
-		document.querySelector("#submit_selection").addEventListener("click", checkDateValidation);
+		document.querySelector("#submit_selection").addEventListener("click", submitDate);
+		document.querySelector("#delete_res_btn").addEventListener("click", deleteReservation);
 
-		setMonth(today);
+		
 
 		document.querySelector("#prev_month").addEventListener("click", previousMonth);
 		document.querySelector("#next_month").addEventListener("click", nextMonth);
