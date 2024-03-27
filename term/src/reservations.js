@@ -161,7 +161,24 @@ function setMonth(set_date) {
 				day.removeAttribute("booked");
 				
 				if (month_has_bookings && booked_dates_cur[0].includes(day_count)) {
-					day.style.backgroundImage = color_gradient;
+					// if the day falls within reservation selected
+					if (reservation_target != null) {
+						const temp1 = reservation_target[1].split("-");
+						const temp2 = reservation_target[2].split("-");
+						const temp1_date = new Date(temp1[0], temp1[1] - 1, temp1[2]);
+						const temp2_date = new Date(temp2[0], temp2[1] - 1, temp2[2]);
+						const temp_current = new Date(current_selection.year, current_selection.month, day_count);
+						if (temp1_date <= temp_current && temp2_date >= temp_current) {
+							day.style.backgroundImage = color_gradient_sel;
+						}
+						else {
+							day.style.backgroundImage = color_gradient;
+						}
+					}
+					else {
+						day.style.backgroundImage = color_gradient;
+					}
+					
 					if (booked_dates_cur[1][booked_dates_cur[0].indexOf(day_count)] != "")
 						day.innerHTML = `${day_count} - ${booked_dates_cur[1][booked_dates_cur[0].indexOf(day_count)]}`;
 					day.setAttribute("booked", "");
@@ -230,6 +247,22 @@ function calendarEvent(event) {
 			const clicked_reservation = getClickedReservation(target.innerHTML);
 			reservation_target = clicked_reservation;
 			selection_complete = true;
+
+			const temp1 = reservation_target[1].split("-");
+			const temp2 = reservation_target[2].split("-");
+			const temp1_date = new Date(temp1[0], temp1[1] - 1, temp1[2]);
+			const temp2_date = new Date(temp2[0], temp2[1] - 1, temp2[2]);
+			
+			for (let i = 0; i <= 41; i++) {
+				const temp = document.querySelector(`#day${i}`);
+				if (temp.hasAttribute("invalid")) continue;
+				const temp_day = temp.innerHTML.includes("-") ? temp.innerHTML.split("-")[0].slice(0, -1) : temp.innerHTML;
+				const temp_current = new Date(current_selection.year, current_selection.month, Number(temp_day));
+				if (temp1_date <= temp_current && temp2_date >= temp_current) {
+					temp.style.backgroundImage = color_gradient_sel;
+				}
+			}
+
 			document.querySelector("#delete_res_btn").disabled = false;
 			document.querySelector("#edit_res_btn").disabled = false;
 			document.querySelector("#reservation_select").innerHTML = 
@@ -336,16 +369,18 @@ function resetSelection() {
 	document.querySelector("#edit_res_btn").disabled = true;
 	document.querySelector("#selections_p").innerHTML = "Dates selected: none";
 	document.querySelector("#reservation_select").innerHTML = "Reservation selected: none";
-	for (let i = 0; i <= 41; i++) {
-		const temp = document.querySelector(`#day${i}`);
-		if (temp.hasAttribute("invalid")) continue;
 
-		if (temp.hasAttribute("istoday"))
-			temp.style.backgroundColor = color_today
-		else
-			temp.style.backgroundColor = color_unselected;
-		temp.removeAttribute("selected");
-	}
+	setMonth(new Date(current_selection.year, current_selection.month));
+	// for (let i = 0; i <= 41; i++) {
+	// 	const temp = document.querySelector(`#day${i}`);
+	// 	if (temp.hasAttribute("invalid")) continue;
+
+	// 	if (temp.hasAttribute("istoday"))
+	// 		temp.style.backgroundColor = color_today
+	// 	else
+	// 		temp.style.backgroundColor = color_unselected;
+	// 	temp.removeAttribute("selected");
+	// }
 }
 
 
