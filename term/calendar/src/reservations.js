@@ -156,11 +156,22 @@ class BACKEND {
 
 	// Submit the current selection to the table
 	static submitDate() {
+		const res_name = document.querySelector("#res_name").value;
+		if (res_name == "") {
+			alert("Please add a reservation name");
+			return;
+		}
+		else if (res_name.match(/[^0-9a-z]/i)) {
+			alert("The reservation name can only include letters and numbers");
+			return;
+		}
+
 		const formdata = new FormData();
 		const date1 = document.querySelector("#date1_val").value;
 		const date2 = document.querySelector("#date2_val").value;
 		formdata.append("date1", date1);
 		formdata.append("date2", date2);
+		formdata.append("res_name", res_name);
 
 		const request = new Request('make_reservation.php', {
 			method: 'POST',

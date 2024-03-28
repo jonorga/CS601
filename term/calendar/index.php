@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<link rel="icon" type="image/png" sizes="32x32" href="./images/calendar-icon.png">
+    	<link rel="icon" type="image/png" sizes="32x32" href="/term/images/calendar-icon.png">
     	<link rel="stylesheet" href="./src/styles.css">
 		<title>Rental Reservations</title>
 		<script type="module">
@@ -12,6 +12,59 @@
 		</script>
 	</head>
 	<body>
+		<?php
+			$login_success = FALSE;
+			if (isset($_POST['user'])) { $user = $_POST['user']; }
+			else $user = "";
+			if (isset($_POST['pass'])) { $pass = $_POST['pass']; }
+			else $pass = "";
+
+			
+			if ($user == "" || $pass == "") {
+				echo "Invalid username or password\n";
+				exit();
+			}
+
+			$db_host = 'localhost';
+			$db_user = 'root';
+			$db_password = 'root';
+			$db_db = 'myDB';
+		 
+			$mysqli = @new mysqli(
+				$db_host,
+				$db_user,
+				$db_password,
+				$db_db
+			);
+			
+			if ($mysqli->connect_error) {
+				echo 'Errno: '.$mysqli->connect_errno;
+				echo '<br>';
+				echo 'Error: '.$mysqli->connect_error;
+				exit();
+			}
+
+			$sql = "SELECT * FROM `Logins` WHERE username = \"$user\" AND password = \"$pass\"";
+			$result = $mysqli -> query($sql);
+			if ($result !== FALSE) {
+				if ($result -> num_rows == 1) {
+					$login_success = TRUE;
+				}
+				else {
+					echo "Username or password was incorrect";
+				}
+			}
+			else {
+				echo "$user login failed";
+			}
+
+			if (!$login_success) {
+				echo "<style> #main_container { display: none } </style>";
+			}
+			else {
+				
+			}
+		?>
 		<div id="main_container">
 			<h1>Rental Reservations</h1>
 			<div id="calendar_header">
@@ -86,6 +139,8 @@
 			<div>
 				<input type="date" id="date1_val" name="date1">
 				<input type="date" id="date2_val" name="date2">
+				<span>Reservation name: </span>
+				<input type="text" id="res_name">
 				<input type="submit" id="submit_selection">
 			</div>
 		</div>

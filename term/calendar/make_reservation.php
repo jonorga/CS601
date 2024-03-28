@@ -22,6 +22,8 @@
 	else $date1 = "";
 	if (isset($_POST['date2'])) { $date2 = $_POST["date2"]; }
 	else $date2 = "";
+	if (isset($_POST['res_name'])) { $res_name = $_POST["res_name"]; }
+	else $res_name = "NoNameSet";
 
 	if ($date1 != "" && $date2 != "") {
 		$sql = "SELECT * FROM `TestTable` WHERE (StartDate >= \"" . $date1 . "\" AND StartDate <= \"" . $date2 . "\")"
@@ -36,7 +38,7 @@
 				echo "Selected dates unavailable";
 			}
 			else {
-				$sql = "INSERT INTO TestTable (Name, StartDate, EndDate) VALUES ('Bob', '" 
+				$sql = "INSERT INTO TestTable (Name, StartDate, EndDate) VALUES ('" . $res_name . "', '" 
 					. $date1 . "', '" . $date2 ."')";
 				$result = $mysqli->query($sql);
 				if ($result !== FALSE) {
