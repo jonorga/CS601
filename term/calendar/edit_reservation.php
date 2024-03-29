@@ -1,4 +1,9 @@
 <?php
+	if (isset($_POST['user'])) { $user = $_POST['user']; }
+	else {
+		echo "No user submitted";
+		exit();
+	}
 	$db_host = 'localhost';
 	$db_user = 'root';
 	$db_password = 'root';
@@ -28,7 +33,7 @@
 	else $new_date2 = "";
 
 	if ($date1 != "" && $date2 != "") {
-		$sql = "SELECT * FROM `TestTable` WHERE (StartDate >= \"" 
+		$sql = "SELECT * FROM $user WHERE (StartDate >= \"" 
 			. $new_date1 . "\" AND StartDate <= \"" . $new_date2 . "\")"
 			. " OR (EndDate >= \"" . $new_date1 . "\" AND EndDate <= \"" . $new_date2 . "\")"
 			. " OR (StartDate >= \"" . $new_date1 . "\" AND EndDate <= \"" . $new_date2 . "\")"
@@ -46,7 +51,7 @@
 				}
 			}
 			if ($valid_date || $result -> num_rows === 0) {
-				$sql = "UPDATE `TestTable` SET StartDate = \"$new_date1\", EndDate = \"$new_date2\" WHERE "
+				$sql = "UPDATE $user SET StartDate = \"$new_date1\", EndDate = \"$new_date2\" WHERE "
 					. "StartDate = \"$date1\" AND EndDate = \"$date2\"";
 				if ($mysqli->query($sql) === TRUE) {
 					echo "Reservation edited!";

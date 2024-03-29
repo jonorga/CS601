@@ -10,10 +10,20 @@
 	<body>
 		<h1>Reservation scheduling</h1>
 		<form action="/term/calendar/" method="POST">
+			<h3>Owner login</h3>
+			<span>Username: </span>
 			<input type="text" id="username" name="user">
+			<span>Password: </span>
 			<input type="password" id="password" name="pass">
 			<button type="submit" id="submit_login">Submit</button>
-		</div>
+		</form>
+		<hr>
+		<form action="/term/property/" method="POST">
+			<h3>User login</h3>
+			<span>Property name:</span>
+			<input type="text" id="user_login" name="user_login">
+			<button type="submit">Submit</button>
+		</form>
 		<p id="login_output"></p>
 	</body>
 </html>

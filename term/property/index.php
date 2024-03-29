@@ -4,18 +4,16 @@
 		<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<link rel="icon" type="image/png" sizes="32x32" href="/term/images/calendar-icon.png">
-    	<link rel="stylesheet" href="./src/styles.css">
+    	<link rel="stylesheet" href="/term/src/styles.css">
 		<title>Rental Reservations</title>
 		<?php
 			$login_success = FALSE;
-			if (isset($_POST['user'])) { $user = $_POST['user']; }
+			if (isset($_POST['user_login'])) { $user = $_POST['user_login']; }
 			else $user = "";
-			if (isset($_POST['pass'])) { $pass = $_POST['pass']; }
-			else $pass = "";
 
 			
-			if ($user == "" || $pass == "") {
-				echo "Invalid username or password\n";
+			if ($user == "") {
+				echo "No username set, return to login page and try again\n";
 				exit();
 			}
 
@@ -38,7 +36,7 @@
 				exit();
 			}
 
-			$sql = "SELECT * FROM `Logins` WHERE username = \"$user\" AND password = \"$pass\"";
+			$sql = "SELECT * FROM `Logins` WHERE username = \"$user\"";
 			$result = $mysqli -> query($sql);
 			if ($result !== FALSE) {
 				if ($result -> num_rows == 1) {
@@ -47,11 +45,11 @@
 					echo "<meta name=\"database\" content=\"$row[2]\">";
 				}
 				else {
-					echo "Username or password was incorrect";
+					echo "$user Property could not be found";
 				}
 			}
 			else {
-				echo "$user login failed";
+				echo "loading $user property failed";
 			}
 
 			if (!$login_success) {
@@ -59,7 +57,7 @@
 			}
 			else {
 				echo "<script type=\"module\">";
-				echo "import { initializePage } from \"./src/reservations.js\";";
+				echo "import { initializePage } from \"/term/src/reservations.js\";";
 				echo "initializePage();";
 				echo "</script>";
 			}
@@ -131,9 +129,6 @@
 			</div>
 			<div id=selections_div>
 				<p id="server_status"></p>
-				<p id="reservation_select">Reservation selected: none</p>
-				<button id="delete_res_btn" disabled>Delete reservation</button>
-				<button id="edit_res_btn" disabled>Edit reservation</button>
 				<p id="selections_p">Dates selected: none</p>
 				<button id="reset_selection">Reset selection</button>
 			</div>

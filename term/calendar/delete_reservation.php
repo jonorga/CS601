@@ -1,4 +1,9 @@
 <?php
+	if (isset($_POST['user'])) { $user = $_POST['user']; }
+	else {
+		echo "No user submitted";
+		exit();
+	}
 	$db_host = 'localhost';
 	$db_user = 'root';
 	$db_password = 'root';
@@ -24,12 +29,12 @@
 	else $date2 = "";
 
 	if ($date1 != "" && $date2 != "") {
-		$sql = "SELECT * FROM `TestTable` WHERE StartDate = \"$date1\" AND EndDate = \"$date2\"";
+		$sql = "SELECT * FROM $user WHERE StartDate = \"$date1\" AND EndDate = \"$date2\"";
 		$result = $mysqli->query($sql);
 
 		if ($result !== FALSE) {
 			if ($result -> num_rows == 1) {
-				$sql = "DELETE FROM `TestTable` WHERE StartDate = \"$date1\" AND EndDate = \"$date2\"";
+				$sql = "DELETE FROM $user WHERE StartDate = \"$date1\" AND EndDate = \"$date2\"";
 				if ($mysqli->query($sql) === TRUE) {
 					echo "Reservation deleted";
 				}
