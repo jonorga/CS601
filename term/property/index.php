@@ -8,13 +8,13 @@
 		<title>Rental Reservations</title>
 		<?php
 			$login_success = FALSE;
+			$failure_reason = "";
 			if (isset($_POST['user_login'])) { $user = $_POST['user_login']; }
 			else $user = "";
 
 			
 			if ($user == "") {
-				echo "No username set, return to login page and try again\n";
-				exit();
+				$failure_reason = $failure_reason . " No username set, return to login page and try again\n";
 			}
 
 			$db_host = 'localhost';
@@ -30,10 +30,8 @@
 			);
 			
 			if ($mysqli->connect_error) {
-				echo 'Errno: '.$mysqli->connect_errno;
-				echo '<br>';
-				echo 'Error: '.$mysqli->connect_error;
-				exit();
+				$failure_reason = $failure_reason . ' Errno: '.$mysqli->connect_errno . '<br>';
+				$failure_reason = $failure_reason . 'Error: '.$mysqli->connect_error;
 			}
 
 			$sql = "SELECT * FROM `Logins` WHERE username = \"$user\"";
@@ -45,25 +43,40 @@
 					echo "<meta name=\"database\" content=\"$row[2]\">";
 				}
 				else {
-					echo "$user Property could not be found";
+					$failure_reason = $failure_reason . "$user property could not be found";
 				}
 			}
 			else {
-				echo "loading $user property failed";
+				$failure_reason = $failure_reason . "loading $user property failed";
 			}
 
-			if (!$login_success) {
-				echo "<style> #main_container { display: none } </style>";
-			}
-			else {
+			if ($login_success) {
 				echo "<script type=\"module\">";
 				echo "import { initializePage } from \"/term/src/reservations.js\";";
 				echo "initializePage();";
 				echo "</script>";
 			}
+			else {
+				echo "<script type=\"module\">";
+				echo "import { rejectPage } from \"/term/src/rejection.js\";";
+				echo "rejectPage();";
+				echo "</script>";
+			}
 		?>
 	</head>
 	<body>
+		<?php 
+		$reject_page = '
+		<div>
+			<h1>Whoops... we couldn\'t log you in</h1>
+			<h3>Reason(s):</h3>
+			' . $failure_reason . '
+			<br>
+			<button id="return_btn">Back to login page</button>
+		</div>
+		';
+
+		$main_page = '
 		<div id="main_container">
 			<h1>Rental Reservations</h1>
 			<div id="calendar_header">
@@ -139,7 +152,10 @@
 				<input type="text" id="res_name">
 				<input type="submit" id="submit_selection">
 			</div>
-		</div>
+		</div>';
+		if ($login_success) echo $main_page;
+		else echo $reject_page;
+		?>
 	</body>
 </html>
 

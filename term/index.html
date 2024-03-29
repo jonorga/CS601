@@ -5,7 +5,15 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<link rel="icon" type="image/png" sizes="32x32" href="/term/images/calendar-icon.png">
 		<title>Reservation scheduling</title>
-		<!-- <script src="./src/login.js"></script> -->
+		<script src="./src/login.js"></script>
+		<style>
+			#owner_hint {
+				display: none;
+			}
+			#user_hint {
+				display: none;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>Reservation scheduling</h1>
@@ -15,14 +23,16 @@
 			<input type="text" id="username" name="user">
 			<span>Password: </span>
 			<input type="password" id="password" name="pass">
-			<button type="submit" id="submit_login">Submit</button>
+			<button type="submit" id="submit_login" disabled>Submit</button>
+			<span id="owner_hint">Your username and password must only contain letters and numbers</span>
 		</form>
 		<hr>
 		<form action="/term/property/" method="POST">
 			<h3>User login</h3>
 			<span>Property name:</span>
 			<input type="text" id="user_login" name="user_login">
-			<button type="submit">Submit</button>
+			<button type="submit" id="prop_search" disabled>Submit</button>
+			<span id="user_hint">The property name must only contain letters and numbers</span>
 		</form>
 		<p id="login_output"></p>
 	</body>
