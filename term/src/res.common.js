@@ -54,11 +54,11 @@ class HLPR {
 			return num + (num % 10 == 1 ? "st" : num % 10 == 2 ? "nd" : num % 10 == 3 ? "rd" : "th");
 	}
 
-	// Get the number of dayes in a given month
-	static daysInMonth(month, year) { return new Date(year, month + 1, 0).getDate(); }
+	// Get the number of days in a given month
+	static daysInMonth = function(month, year) { return new Date(year, month + 1, 0).getDate(); }
 
 	// Returns which day of the week the first of the month falls on
-	static firstDayOfWeek(month, year) { return new Date(year, month, 1).getDay(); }
+	static firstDayOfWeek = function(month, year) { return new Date(year, month, 1).getDay(); }
 
 
 	// Get the reservation from the clicked dates

@@ -69,9 +69,9 @@
 		$reject_page = '
 		<div>
 			<h1>Whoops... we couldn\'t log you in</h1>
-			<h3>Reason(s):</h3>
+			<h3>Reason(s):</h3><p>
 			' . $failure_reason . '
-			<br>
+			</p><br>
 			<button id="return_btn">Back to login page</button>
 		</div>
 		';
