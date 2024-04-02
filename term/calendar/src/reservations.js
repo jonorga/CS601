@@ -1,4 +1,4 @@
-import { STC, PAGE_FUNC, BACKEND_BASIC } from '/term/src/res.common.js';
+import { STC, PAGE_FUNC, BACKEND_BASIC } from '/term/src/js/res.common.js';
 
 // All backend call functions
 class BACKEND extends BACKEND_BASIC {
@@ -9,7 +9,7 @@ class BACKEND extends BACKEND_BASIC {
 		formdata.append("date1", STC.reservation_target[1]);
 		formdata.append("date2", STC.reservation_target[2]);
 
-		const request = new Request('delete_reservation.php', {
+		const request = new Request('/term/src/php/delete_reservation.php', {
 			method: 'POST',
 			body: formdata
 		});
@@ -35,7 +35,7 @@ class BACKEND extends BACKEND_BASIC {
 		formdata.append("new_date1", date1);
 		formdata.append("new_date2", date2);
 
-		const request = new Request('edit_reservation.php', {
+		const request = new Request('/term/src/php/edit_reservation.php', {
 			method: 'POST',
 			body: formdata
 		});

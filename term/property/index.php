@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<link rel="icon" type="image/png" sizes="32x32" href="/term/images/calendar-icon.png">
-    	<link rel="stylesheet" href="/term/src/styles.css">
+    	<link rel="stylesheet" href="/term/src/css/styles_cal.css">
 		<title>Rental Reservations</title>
 		<?php
 			$login_success = FALSE;
@@ -52,13 +52,13 @@
 
 			if ($login_success) {
 				echo "<script type=\"module\">";
-				echo "import { initializePage } from \"/term/src/reservations.js\";";
+				echo "import { initializePage } from \"/term/src/js/reservations.js\";";
 				echo "initializePage();";
 				echo "</script>";
 			}
 			else {
 				echo "<script type=\"module\">";
-				echo "import { rejectPage } from \"/term/src/rejection.js\";";
+				echo "import { rejectPage } from \"/term/src/js/rejection.js\";";
 				echo "rejectPage();";
 				echo "</script>";
 			}

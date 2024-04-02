@@ -4,36 +4,43 @@
 		<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<link rel="icon" type="image/png" sizes="32x32" href="/term/images/calendar-icon.png">
-		<title>Reservation scheduling</title>
-		<script src="./src/login.js"></script>
-		<style>
-			#owner_hint {
-				display: none;
-			}
-			#user_hint {
-				display: none;
-			}
-		</style>
+		<title>Rental Reservations</title>
+		<script src="./src/js/login.js"></script>
+		<link rel="stylesheet" href="/term/src/css/styles_login.css">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<h1>Reservation scheduling</h1>
-		<form action="/term/calendar/" method="POST">
-			<h3>Owner login</h3>
-			<span>Username: </span>
-			<input type="text" id="username" name="user">
-			<span>Password: </span>
-			<input type="password" id="password" name="pass">
-			<button type="submit" id="submit_login" disabled>Submit</button>
-			<span id="owner_hint">Your username and password must only contain letters and numbers</span>
-		</form>
-		<hr>
-		<form action="/term/property/" method="POST">
-			<h3>User login</h3>
-			<span>Property name:</span>
-			<input type="text" id="user_login" name="user_login">
-			<button type="submit" id="prop_search" disabled>Submit</button>
-			<span id="user_hint">The property name must only contain letters and numbers</span>
-		</form>
-		<p id="login_output"></p>
+		<div id="main_container">
+			<h1>Rental Reservation System</h1>
+			<div class="login_toggle">
+				<input type="checkbox" id="lgn_tgl_box">
+				<div class="slider">
+					<div>
+						<span class="login_option">User Login</span>
+						<span class="login_option">Owner Login</span>
+					</div>
+				</div>
+			</div>
+			<div class="login_div" id="user_div">
+				<form action="/term/property/" method="POST">
+					<h3>User login</h3>
+					<span>Property name:</span>
+					<input type="text" id="user_login" name="user_login">
+					<button type="submit" id="prop_search" disabled>Submit</button>
+					<span id="user_hint">The property name must only contain letters and numbers</span>
+				</form>
+			</div>
+			<div class="login_div" id="owner_div">
+				<form action="/term/calendar/" method="POST">
+					<h3>Owner login</h3>
+					<span>Username: </span>
+					<input type="text" id="username" name="user">
+					<span>Password: </span>
+					<input type="password" id="password" name="pass">
+					<button type="submit" id="submit_login" disabled>Submit</button>
+					<span id="owner_hint">Your username and password must only contain letters and numbers</span>
+				</form>
+			</div>
+		</div>
 	</body>
 </html>

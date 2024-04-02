@@ -1,4 +1,4 @@
-import { STC, PAGE_FUNC, BACKEND_BASIC as BACKEND } from '/term/src/res.common.js';
+import { STC, PAGE_FUNC, BACKEND_BASIC as BACKEND } from '/term/src/js/res.common.js';
 
 
 // Initialize the main page

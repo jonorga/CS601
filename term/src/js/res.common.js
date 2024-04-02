@@ -221,7 +221,7 @@ class BACKEND {
 		const formdata = new FormData();
 		formdata.append("user", STC.user);
 
-		const request = new Request('get_reservations.php', {
+		const request = new Request('/term/src/php/get_reservations.php', {
 			method: 'POST',
 	    	body: formdata
 		});
@@ -272,7 +272,7 @@ class BACKEND {
 		formdata.append("date2", date2);
 		formdata.append("res_name", res_name);
 
-		const request = new Request('make_reservation.php', {
+		const request = new Request('/term/src/php/make_reservation.php', {
 			method: 'POST',
 	    	body: formdata
 		});

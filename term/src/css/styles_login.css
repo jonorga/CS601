@@ -1,0 +1,90 @@
+html, body {
+	font-family: 'Montserrat', sans-serif;
+	margin: 0;
+	height: 100%;
+	background: linear-gradient(70deg, cyan, darkcyan);
+}
+
+#main_container {
+	display: flex;
+	flex-direction: column;
+	margin: 8px;
+}
+
+h1 {
+	text-align: center;
+}
+
+.login_toggle {
+	position: relative;
+	width: 20rem;
+	height: 3rem;
+	background-color: darkcyan;
+	border-radius: 1.3rem;
+	align-self: center;
+}
+
+.login_toggle input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	opacity: 0;
+}
+
+.slider {
+	position: absolute;
+	text-align: center;
+	align-content: center;
+	white-space: nowrap;
+	overflow: hidden;
+
+	cursor: pointer;
+	background-color: #ccc;
+	height: 2.3rem;
+	width: 9.2rem;
+	top: 0.35rem;
+	left: 0.3rem;
+	border-radius: 1rem;
+	pointer-events: none;
+	transition: 1s;
+}
+
+.login_option {
+	margin-left: 1.7rem;
+}
+
+.slider div span + span {
+	margin-left: 2rem;
+}
+
+input:checked + .slider {
+	transform: translateX(10rem);
+}
+
+input:checked + .slider > div {
+	transform: translateX(-8rem);
+}
+
+.slider > div {
+	transition: 1s;
+}
+
+.login_div {
+	margin-left: 2rem;
+	margin-right: 2rem;
+	margin-top: 2rem;
+}
+
+#owner_div {
+	display: none;
+}
+
+#owner_hint {
+	display: none;
+}
+
+#user_hint {
+	display: none;
+}
