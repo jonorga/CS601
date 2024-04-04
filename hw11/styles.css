@@ -1,0 +1,17 @@
+#dropdown_div {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+}
+
+.dd_option {
+	border: 1px solid;
+}
+
+.dd_option:hover {
+	background-color: #ccc;
+}
+
+.dd_option p {
+	margin-left: 1rem;
+}

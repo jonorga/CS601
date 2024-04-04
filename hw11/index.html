@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<title>HW11 Timezones</title>
-		<script>var exports = {};</script>
+		<link rel="stylesheet" href="./styles.css">
 		<script type="module">
 			import { pageFunction } from "./timezones.js";
 			pageFunction();
@@ -11,6 +11,13 @@
 	<body>
 		<h1>Timezones</h1>
 		<p>Add locations</p>
-		<input type="search" placeholder="Search for city or zipcode">
+		<div id="dropdown_div">
+			<input type="search" id="search_input" placeholder="Search for city or zipcode">
+		</div>
+		<div id="display">
+			<div class="display_item" content="Boston, Massachusetts;44444;4">
+				<p></p>
+			</div>
+		</div>
 	</body>
 </html>
