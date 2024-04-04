@@ -40,19 +40,37 @@ const locations = {
         }
     }
 };
+function optionEvent(event) {
+    const target = event.currentTarget;
+    const content = target.getAttribute("content");
+    const new_div = document.createElement("div");
+    const para = document.createElement("p");
+    new_div.appendChild(para);
+    new_div.classList.add("display_item");
+    new_div.setAttribute("content", content);
+    if (document.getElementById("display") != null && document.getElementById("display") != undefined)
+        document.getElementById("display").appendChild(new_div);
+}
 function addListOption(cityproper, zipcode, zone) {
     const new_div = document.createElement("div");
     const para = document.createElement("p");
     para.innerHTML = cityproper + ", " + zipcode + " (UTC-" + zone + ")";
     new_div.appendChild(para);
+    new_div.addEventListener("click", optionEvent);
     new_div.classList.add("dd_option");
-    document.getElementById("dropdown_div").appendChild(new_div);
+    new_div.setAttribute("content", cityproper + ";" + zipcode + ";" + zone);
+    if (document.getElementById("dropdown_div") != null && document.getElementById("dropdown_div") != undefined)
+        document.getElementById("dropdown_div").appendChild(new_div);
 }
 function searchEvent() {
     const dd_div = document.getElementById("dropdown_div");
+    if (dd_div == null || dd_div == undefined)
+        return;
     const all_option_divs = dd_div.getElementsByTagName("div");
     Object.keys(all_option_divs).map(() => { all_option_divs[0].remove(); });
-    const input = document.getElementById("search_input").value;
+    if (document.getElementById("search_input") == null || document.getElementById("search_input") == undefined)
+        return;
+    const input = document.querySelector("#search_input").value;
     if (input == null || input == "")
         return;
     if (input.match(/[a-zA-Z]/)) {
@@ -68,25 +86,26 @@ function searchEvent() {
         const regex = new RegExp(input);
         for (let key in locations.zipcodes) {
             if (key.match(regex)) {
-                addListOption(locations.zipcodes[key].proper, key, locations.zipcodes[key].zone);
+                addListOption(locations.zipcodes[key].proper, Number(key), locations.zipcodes[key].zone);
             }
         }
     }
 }
 async function dynamicDisplay() {
-    while (true)
-    {
-        const display_div = document.getElementById("display");
+    const display_div = document.getElementById("display");
+    if (display_div == null || display_div == undefined)
+        return;
+    while (true) {
         const all_display_divs = display_div.getElementsByTagName("div");
-        Object.keys(all_display_divs).map((i) => { 
-            const content = all_display_divs[i].getAttribute("content");
-            const content_parsed = content.split(";");
-            const para = all_display_divs[i].getElementsByTagName("p");
-            const date = new Date();
-            date.setHours(date.getHours() - content_parsed[2]);
-
-            
-            para[0].innerHTML = content_parsed[0] + " " + content_parsed[1] + " " + date.toUTCString();
+        Object.keys(all_display_divs).map((i) => {
+            const content = all_display_divs[Number(i)].getAttribute("content");
+            if (content != null && content != "") {
+                const content_parsed = content.split(";");
+                const para = all_display_divs[Number(i)].getElementsByTagName("p");
+                const date = new Date();
+                date.setHours(date.getHours() - Number(content_parsed[2]));
+                para[0].innerHTML = content_parsed[0] + " " + content_parsed[1] + " " + date.toUTCString();
+            }
         });
         await new Promise(r => setTimeout(r, 1000));
     }
