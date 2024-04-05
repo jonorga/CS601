@@ -1,0 +1,10 @@
+TODO
+- DONE When zone clicked, edit date pops up
+- DONE When zone clicked, edit date removed from any other that are present
+- DONE When date edited, all zones switch to that
+- Format date to not have day of week or GMT
+- Change object literal into imported class
+- Testing limiting display result by cutting off after 3, then set to 5 for extra credit
+- Create Python script to convert CSV file to javascript object literal
+- Bring into hw11 and test
+- Maybe a bit of CSS?

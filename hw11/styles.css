@@ -4,11 +4,19 @@
 	width: 50%;
 }
 
+#display {
+	margin-top: 2rem;
+}
+
+.display_item {
+	border: 1px solid;
+}
+
 .dd_option {
 	border: 1px solid;
 }
 
-.dd_option:hover {
+.dd_option:hover, .display_item:hover {
 	background-color: #ccc;
 }
 

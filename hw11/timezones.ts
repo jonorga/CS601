@@ -40,18 +40,79 @@ const locations : {[key: string] : any} = {
         }
     }
 };
+
+class currentDateTime {
+	static dt : string = "";
+	static offset : number;
+}
+
+function removeTimezone(event : Event) {
+	event.stopPropagation();
+	const target = event.currentTarget as HTMLElement;
+	target.parentElement!.remove();
+}
+
+function clearOptionList() {
+	const dd_div = document.getElementById("dropdown_div");
+	if (dd_div == null || dd_div == undefined) return;
+	const all_option_divs = dd_div.getElementsByTagName("div");
+	Object.keys(all_option_divs).map( () => {all_option_divs[0].remove()} );
+}
+
+function editTime(event : Event) {
+	event.stopPropagation();
+	const target = event.currentTarget as HTMLInputElement;
+	currentDateTime.dt = target.value;
+
+	const content = target.parentElement!.getAttribute("content")!.split(";");
+	currentDateTime.offset = Number(content[2]) - 4;
+}
+
+function editTimezoneTime(event : Event) {
+	const target = event.currentTarget as HTMLElement;
+	if (target.getElementsByTagName("input").length == 1) {
+		event.stopPropagation();
+		return;
+	}
+
+	const display_div = document.getElementById("display") as HTMLElement;
+	if (display_div == null) return;
+	const all_display_divs = display_div.getElementsByTagName("div");
+	Object.keys(all_display_divs).map( (i) => {
+		const zone = all_display_divs[Number(i)];
+		const child = zone.getElementsByTagName("input");
+		if (child.length == 1)
+			child[0].remove();
+	});
+
+	const dt_select = document.createElement("input");
+	dt_select.type = "datetime-local";
+	dt_select.addEventListener("change", editTime);
+	
+	target!.appendChild(dt_select);
+}
+
 function optionEvent (event : Event) {
-	const target = event.currentTarget;
+	const target = event.currentTarget as HTMLElement;
 	const content = target!.getAttribute("content");
+	if (content == null) return;
 
 	const new_div = document.createElement("div");
 	const para = document.createElement("p");
+	const btn = document.createElement("button");
+	para.innerHTML = "Loading...";
+	btn.innerHTML = "Remove location";
+	btn.addEventListener("click", removeTimezone);
+	new_div.addEventListener("click", editTimezoneTime)
 	new_div.appendChild(para);
+	new_div.appendChild(btn);
 	new_div.classList.add("display_item");
-	new_div.setAttribute("content", content);
+	new_div.setAttribute("content", content!);
+	clearOptionList();
 	if (document.getElementById("display") != null && document.getElementById("display") != undefined)
 		document.getElementById("display")!.appendChild(new_div);
 }
+
 function addListOption(cityproper: string, zipcode: number, zone: string) {
 	const new_div = document.createElement("div");
 	const para = document.createElement("p");
@@ -65,13 +126,11 @@ function addListOption(cityproper: string, zipcode: number, zone: string) {
 }
 
 function searchEvent() {
-	const dd_div = document.getElementById("dropdown_div");
-	if (dd_div == null || dd_div == undefined) return;
-	const all_option_divs = dd_div.getElementsByTagName("div");
-	Object.keys(all_option_divs).map( () => {all_option_divs[0].remove()} );
+	clearOptionList();
 
 	if (document.getElementById("search_input") == null || document.getElementById("search_input") == undefined) return;
-	const input = document.querySelector("#search_input")!.value;
+	const input_element = document.getElementById("search_input") as HTMLInputElement;
+	const input = input_element!.value;
 	if (input == null || input == "")
         return;
     
@@ -105,8 +164,15 @@ async function dynamicDisplay() {
 			if (content != null && content != "") {
 				const content_parsed = content!.split(";");
 				const para = all_display_divs[Number(i)].getElementsByTagName("p");
-				const date = new Date();
-				date.setHours(date.getHours() - Number(content_parsed[2]));
+				let date = null;
+				if (currentDateTime.dt == "") {
+					date = new Date();
+					date.setHours(date.getHours() - Number(content_parsed[2]));
+				}
+				else {
+					date = new Date(currentDateTime.dt);
+					date.setHours(date.getHours() - Number(content_parsed[2]) + currentDateTime.offset);
+				}
 
 				para[0].innerHTML = content_parsed[0] + " " + content_parsed[1] + " " + date.toUTCString();
 			}
