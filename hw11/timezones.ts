@@ -173,8 +173,15 @@ async function dynamicDisplay() {
 					date = new Date(currentDateTime.dt);
 					date.setHours(date.getHours() - Number(content_parsed[2]) + currentDateTime.offset);
 				}
+				const date_format : string = date.toUTCString().split(",")[1].slice(0, -12); 
 
-				para[0].innerHTML = content_parsed[0] + " " + content_parsed[1] + " " + date.toUTCString();
+				const time_temp : string[] = date.toUTCString().split(":");
+				const min_sec : string = ":" + time_temp[1] + ":" + time_temp[2].slice(0,-4) + " ";
+
+				const hour_format : string = date.getUTCHours() > 12 ? date.getUTCHours() % 12 + min_sec + "PM" : date.getUTCHours() + min_sec + "AM";
+
+				para[0].innerHTML = content_parsed[0] + " " + content_parsed[1] + " " + date_format 
+					+ " " + hour_format + " (UTC-" + content_parsed[2] + ")";
 			}
         });
         await new Promise(r => setTimeout(r, 1000));
