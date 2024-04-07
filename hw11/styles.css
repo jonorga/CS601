@@ -23,3 +23,8 @@
 .dd_option p {
 	margin-left: 1rem;
 }
+
+#display > p {
+	display: none;
+}
+

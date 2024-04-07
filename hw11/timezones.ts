@@ -1,45 +1,4 @@
-const locations : {[key: string] : any} = {
-    zipcodes: {
-        11111: {
-        	proper: "Los Angeles, California",
-        	zone: "7"
-        },
-        22222: {
-        	proper: "Salt Lake City, Utah",
-        	zone: "6"
-        },
-        33333: {
-        	proper: "Houston, Texas",
-        	zone: "5"
-        },
-        44444: {
-        	proper: "Boston, Massachusetts",
-        	zone: "4"
-        }
-    },
-    cities: {
-        "los angeles california": {
-        	proper: "Los Angeles, California",
-			zip: 11111,
-        	zone: "7"
-        },
-        "salt lake city utah": {
-        	proper: "Salt Lake City, Utah",
-			zip: 22222,
-        	zone: "6"
-        },
-        "houston texas": {
-        	proper: "Houston, Texas",
-			zip: 33333,
-        	zone: "5"
-        },
-        "boston massachusetts": {
-        	proper: "Boston, Massachusetts",
-			zip: 44444,
-        	zone: "4"
-        }
-    }
-};
+import {locations} from './locs.js';
 
 class currentDateTime {
 	static dt : string = "";
@@ -134,13 +93,16 @@ function searchEvent() {
 	if (input == null || input == "")
         return;
     
+	let list_limit : number = 5;
     if (input.match(/[a-zA-Z]/)) {
         const lower_input = input.toLowerCase();
 		const regex = new RegExp(lower_input);
 		for (let key in locations.cities) {
 			if (key.match(regex)) {
 				addListOption(locations.cities[key].proper, locations.cities[key].zip, locations.cities[key].zone);
+				list_limit--;
 			}
+			if (list_limit <= 0) break;
 		}
     }
     else if (input.match(/\d+/)) {
@@ -148,7 +110,9 @@ function searchEvent() {
         for (let key in locations.zipcodes) {
             if (key.match(regex)) {
 				addListOption(locations.zipcodes[key].proper, Number(key), locations.zipcodes[key].zone);
+				list_limit--;
             }
+			if (list_limit <= 0) break;
         }
     }
 }

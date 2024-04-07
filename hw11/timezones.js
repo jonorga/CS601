@@ -1,45 +1,4 @@
-const locations = {
-    zipcodes: {
-        11111: {
-            proper: "Los Angeles, California",
-            zone: "7"
-        },
-        22222: {
-            proper: "Salt Lake City, Utah",
-            zone: "6"
-        },
-        33333: {
-            proper: "Houston, Texas",
-            zone: "5"
-        },
-        44444: {
-            proper: "Boston, Massachusetts",
-            zone: "4"
-        }
-    },
-    cities: {
-        "los angeles california": {
-            proper: "Los Angeles, California",
-            zip: 11111,
-            zone: "7"
-        },
-        "salt lake city utah": {
-            proper: "Salt Lake City, Utah",
-            zip: 22222,
-            zone: "6"
-        },
-        "houston texas": {
-            proper: "Houston, Texas",
-            zip: 33333,
-            zone: "5"
-        },
-        "boston massachusetts": {
-            proper: "Boston, Massachusetts",
-            zip: 44444,
-            zone: "4"
-        }
-    }
-};
+import { locations } from './locs.js';
 class currentDateTime {
 }
 currentDateTime.dt = "";
@@ -122,21 +81,28 @@ function searchEvent() {
     const input = input_element.value;
     if (input == null || input == "")
         return;
+    let list_limit = 5;
     if (input.match(/[a-zA-Z]/)) {
         const lower_input = input.toLowerCase();
         const regex = new RegExp(lower_input);
         for (let key in locations.cities) {
             if (key.match(regex)) {
                 addListOption(locations.cities[key].proper, locations.cities[key].zip, locations.cities[key].zone);
+                list_limit--;
             }
+            if (list_limit <= 0)
+                break;
         }
     }
     else if (input.match(/\d+/)) {
         const regex = new RegExp(input);
         for (let key in locations.zipcodes) {
             if (key.match(regex)) {
-                addListOption(locations.zipcodes[key].proper, Number(key), locations.zipcodes[key].zone);
+                addListOption(locations.zipcodes[key].proper, key, locations.zipcodes[key].zone);
+                list_limit--;
             }
+            if (list_limit <= 0)
+                break;
         }
     }
 }
@@ -146,6 +112,8 @@ async function dynamicDisplay() {
         return;
     while (true) {
         const all_display_divs = display_div.getElementsByTagName("div");
+        if (all_display_divs.length > 0) document.getElementById("display_hint").style.display = "block";
+        else document.getElementById("display_hint").style.display = "none";
         Object.keys(all_display_divs).map((i) => {
             const content = all_display_divs[Number(i)].getAttribute("content");
             if (content != null && content != "") {
@@ -163,7 +131,7 @@ async function dynamicDisplay() {
                 const date_format = date.toUTCString().split(",")[1].slice(0, -12);
                 const time_temp = date.toUTCString().split(":");
                 const min_sec = ":" + time_temp[1] + ":" + time_temp[2].slice(0, -4) + " ";
-                const hour_format = date.getUTCHours() > 12 ? date.getUTCHours() % 12 + min_sec + "PM" : date.getUTCHours() + min_sec + "AM";
+                const hour_format = date.getUTCHours() > 12 ? date.getUTCHours() % 12 + min_sec + "PM" : date.getUTCHours() == 12 ? date.getUTCHours() + min_sec + "PM" : date.getUTCHours() + min_sec + "AM";
                 para[0].innerHTML = content_parsed[0] + " " + content_parsed[1] + " " + date_format
                     + " " + hour_format + " (UTC-" + content_parsed[2] + ")";
             }

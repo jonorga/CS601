@@ -7,8 +7,8 @@ TODO
 	- DONE No GMT
 	- DONE AM/PM
 - DONE Save V1 as done in case no extra complete
-- Change object literal into imported class
-- Testing limiting display result by cutting off after 3, then set to 5 for extra credit
-- Create Python script to convert CSV file to javascript object literal
-- Bring into hw11 and test
+- DONE Change object literal into imported class
+- DONE Testing limiting display result by cutting off after 3, then set to 5 for extra credit
+- DONE Create Python script to convert CSV file to javascript object literal
+- DONE Bring into hw11 and test
 - Maybe a bit of CSS?
