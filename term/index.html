@@ -21,32 +21,38 @@
 					</div>
 				</div>
 			</div>
-			<div id="login_container">
-				<div class="login_div" id="user_div">
-					<form action="/term/property/" method="POST">
-						<h3>User login</h3>
-						<div>
-							<span>Property name:</span>
-							<input type="text" id="user_login" name="user_login">
-						</div>
-						<button type="submit" id="prop_search" disabled>Submit</button>
-						<span id="user_hint">The property name must only contain letters and numbers</span>
-					</form>
+			<div id="signin_container">
+				<div id="login_container">
+					<div class="login_div" id="user_div">
+						<form action="/term/property/" method="POST">
+							<h3>User login</h3>
+							<div>
+								<span>Property name:</span>
+								<input type="text" id="user_login" name="user_login">
+							</div>
+							<button type="submit" id="prop_search" disabled>Submit</button>
+							<span id="user_hint">The property name must only contain letters and numbers</span>
+						</form>
+					</div>
+					<div class="login_div" id="owner_div">
+						<form action="/term/calendar/" method="POST">
+							<h3>Owner login</h3>
+							<div>
+								<span>Username: </span>
+								<input type="text" id="username" name="user">
+							</div>
+							<div>
+								<span>Password: </span>
+								<input type="password" id="password" name="pass">
+							</div>
+							<button type="submit" id="submit_login" disabled>Submit</button>
+							<span id="owner_hint">Your username and password must only contain letters and numbers</span>
+						</form>
+					</div>
 				</div>
-				<div class="login_div" id="owner_div">
-					<form action="/term/calendar/" method="POST">
-						<h3>Owner login</h3>
-						<div>
-							<span>Username: </span>
-							<input type="text" id="username" name="user">
-						</div>
-						<div>
-							<span>Password: </span>
-							<input type="password" id="password" name="pass">
-						</div>
-						<button type="submit" id="submit_login" disabled>Submit</button>
-						<span id="owner_hint">Your username and password must only contain letters and numbers</span>
-					</form>
+				<div id="backimage">
+					<img id="bckgrnd1" src="/term/images/property1.jpeg">
+					<!-- <img id="bckgrnd2" src="/term/images/property2.jpeg"> -->
 				</div>
 			</div>
 		</div>
