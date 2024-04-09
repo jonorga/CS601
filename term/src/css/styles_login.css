@@ -96,7 +96,6 @@ input:checked + .slider > div {
 	display: flex;
 	justify-content: center;
 	position: absolute;
-	/*padding: .5rem;*/
 	top: 40%;
 	max-width: 400px;
 	bottom: 15%;
@@ -120,7 +119,7 @@ input:checked + .slider > div {
 
 
 #backimage {
-	position: absolute; /*Change this to absolute and work from there*/
+	position: absolute;
 	z-index: 1;
 	width: 90%;
 	top: 30%;
@@ -132,6 +131,63 @@ img {
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
+}
+
+#backimage img {
+	position: absolute;
+	top: 0;
+	animation-name: fade;
+	animation-iteration-count: infinite;
+	animation-duration: 40s;
+}
+
+@keyframes fade {
+	0% { opacity: 0; }
+	8% { opacity: 0; }
+	13% { opacity: 1; }
+	17% { opacity: 1; }
+	22% { opacity: 0; }
+	100% { opacity: 0; }
+}
+
+#bckgrnd1 {
+	
+}
+
+#bckgrnd2 {
+	animation-delay: -4s;
+}
+
+#bckgrnd3 {
+	animation-delay: -8s;
+}
+
+#bckgrnd4 {
+	animation-delay: -12s;
+}
+
+#bckgrnd5 {
+	animation-delay: -16s;
+}
+
+#bckgrnd6 {
+	animation-delay: -20s;
+}
+
+#bckgrnd7 {
+	animation-delay: -24s;
+}
+
+#bckgrnd8 {
+	animation-delay: -28s;
+}
+
+#bckgrnd9 {
+	animation-delay: -32s;
+}
+
+#bckgrnd10 {
+	animation-delay: -36s;
 }
 
 input[type="text"], input[type="password"] {
@@ -160,10 +216,6 @@ button {
 button:disabled {
 	background-color: #00224B;
 	color: #808080;
-}
-
-#bckgrnd1 {
-	display: block;
 }
 
 #owner_div {

@@ -1,18 +1,81 @@
+html, body {
+	font-family: 'Montserrat', sans-serif;
+	margin: 0;
+	width: max-content;
+	background: linear-gradient(70deg, cyan, darkcyan);
+}
+
+@media screen and (max-width: 455px) {
+	html, body {
+		height: 100%;
+	}
+}
+@media screen and (min-width: 456px) {
+	html, body {
+		height: max-content;
+	}
+}
+
+#reject_container {
+	margin: 10px;
+}
+
+#calendar_header button {
+	border: none;
+	border-bottom: none;
+	outline: none;
+	font-size: 2.3rem;
+	background-color: rgba(0,0,0,0);
+	transform: scale(1.0);
+	transition: transform .2s;
+}
+
+#calendar_header button:hover {
+	border-bottom: 1px solid;
+	transform: scale(1.1);
+}
+
+
+/*button {
+	background-color: #0073FF;
+	outline: none;
+	border: none;
+	height: 2rem;
+	color: white;
+	border-radius: 5px;
+	transition: background-color .5s;
+	transition: color .2s;
+}
+
+button:disabled {
+	background-color: #00224B;
+	color: #808080;
+}*/
+
+h1 {
+	text-align: center;
+}
+
 #main_container {
 	display: flex;
 	flex-direction: column;
+	width: 100vw;
+	padding: 10px;
 }
 
 .row {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	height: 10vmin;
+	height: 12vmin;
 }
 
 .day {
 	border: solid black 1px;
 	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 2vh;
 }
 
 #calendar {
@@ -28,4 +91,5 @@
 #calendar_header {
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 }

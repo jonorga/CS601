@@ -67,7 +67,7 @@
 	<body>
 		<?php 
 		$reject_page = '
-		<div>
+		<div id="reject_container">
 			<h1>Whoops... we couldn\'t log you in</h1>
 			<h3>Reason(s):</h3><p>
 			' . $failure_reason . '
@@ -78,11 +78,11 @@
 
 		$main_page = '
 		<div id="main_container">
-			<h1>Rental Reservations</h1>
+			<h1>Rental Calendar - ' . $user . '</h1>
 			<div id="calendar_header">
-				<button id="prev_month">Previous</button>
+				<button id="prev_month" class="hover-underline-anim"><</button>
 				<h3 id="month"></h3>
-				<button id="next_month">Next</button>
+				<button id="next_month" class="hover-underline-anim">></button>
 			</div>
 			<div id="calendar">
 				<div class="row">
