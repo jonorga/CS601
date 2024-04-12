@@ -17,10 +17,11 @@ class BACKEND extends BACKEND_BASIC {
 		fetch(request)
 			.then((res) => res.text())
 			.then((text) => {
-				const previous_status = document.querySelector("#server_status").innerHTML;
-				document.querySelector("#server_status").innerHTML = `${previous_status} Server said: ${text}`;
-				BACKEND.retrievePreviousDates();
+				BACKEND.retrievePreviousDates(text);
 				PAGE_FUNC.resetSelection();
+			})
+			.catch((err) => {
+				HLPR.serverMessage(`Error while deleting reservation ${err}`);
 			});
 	}
 
@@ -43,10 +44,11 @@ class BACKEND extends BACKEND_BASIC {
 		fetch(request)
 			.then((res) => res.text())
 			.then((text) => {
-				const previous_status = document.querySelector("#server_status").innerHTML;
-				document.querySelector("#server_status").innerHTML = `${previous_status} Server said: ${text}`;
-				BACKEND.retrievePreviousDates();
+				BACKEND.retrievePreviousDates(text);
 				PAGE_FUNC.resetSelection();
+			})
+			.catch((err) => {
+				HLPR.serverMessage(`Error while editing reservation ${err}`);
 			});
 	}
 }

@@ -151,12 +151,12 @@
 				</div>
 			</div>
 			<div id="res_btns">
-				<button id="reset_selection">Reset selection</button>
+				<button id="reset_selection" class="standardbtn">Reset selection</button>
 				<input type="submit" id="submit_selection">
 			</div>
 			<div id="server_div">
 				<p>Message from server:</p>
-				<button id="dismiss_message">X</button>
+				<button id="dismiss_message" class="standardbtn">X</button>
 				<p id="server_message"></p>
 			</div>
 		</div>';

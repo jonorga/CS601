@@ -89,16 +89,31 @@ input[type="text"]:focus {
 	outline: none;
 }
 
-input[type="submit"], #reset_selection, #dismiss_message {
+input[type="submit"], .standardbtn {
 	outline: none;
 	border: none;
 	height: 2rem;
 	border-radius: 5px;
 }
 
-input[type="submit"] {
+input[type="submit"], #edit_res_btn {
 	background-color: #0073FF;
 	color: white;
+}
+
+#edit_res_btn:disabled {
+	background-color: #2297A0;
+	color: #ccc;
+}
+
+#delete_res_btn {
+	background-color: #F43825;
+	color: white;
+}
+
+#delete_res_btn:disabled {
+	background-color: #912318;
+	color: #ccc;
 }
 
 button {
@@ -163,4 +178,9 @@ button {
 	justify-content: center;
 	margin-top: 3vmin;
 	gap: 12vmin;
+}
+
+#selections_div {
+	border-bottom: 1px solid;
+	padding-bottom: 1vmin;
 }

@@ -80,9 +80,9 @@
 		<div id="main_container">
 			<h1>Rental Reservations</h1>
 			<div id="calendar_header">
-				<button id="prev_month">Previous</button>
+				<button id="prev_month"><</button>
 				<h3 id="month"></h3>
-				<button id="next_month">Next</button>
+				<button id="next_month">></button>
 			</div>
 			<div id="calendar">
 				<div class="row">
@@ -141,19 +141,30 @@
 				</div>
 			</div>
 			<div id=selections_div>
-				<p id="server_status"></p>
 				<p id="reservation_select">Reservation selected: none</p>
-				<button id="delete_res_btn" disabled>Delete reservation</button>
-				<button id="edit_res_btn" disabled>Edit reservation</button>
-				<p id="selections_p">Dates selected: none</p>
-				<button id="reset_selection">Reset selection</button>
+				<input type="date" id="date1_val" name="date1" disabled>
+				<input type="date" id="date2_val" name="date2" disabled>
+				<button id="edit_res_btn"  class="standardbtn" disabled>Edit reservation</button>
+				<button id="delete_res_btn"  class="standardbtn" disabled>Delete reservation</button>
 			</div>
-			<div>
-				<input type="date" id="date1_val" name="date1">
-				<input type="date" id="date2_val" name="date2">
-				<span>Reservation name: </span>
-				<input type="text" id="res_name">
+			<div id="info_container">
+				<div class="info_sect">
+					<span>Dates selected:</span>
+					<span>Reservation name: </span>
+				</div>
+				<div class="info_sect">
+					<span id="selections_p">none</span>
+					<input type="text" id="res_name" placeholder="John Doe">
+				</div>
+			</div>
+			<div id="res_btns">
+				<button id="reset_selection" class="standardbtn">Reset selection</button>
 				<input type="submit" id="submit_selection">
+			</div>
+			<div id="server_div">
+				<p>Message from server:</p>
+				<button id="dismiss_message" class="standardbtn">X</button>
+				<p id="server_message"></p>
 			</div>
 		</div>';
 		if ($login_success) echo $main_page;

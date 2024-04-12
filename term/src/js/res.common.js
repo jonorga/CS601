@@ -340,6 +340,13 @@ class PAGE_FUNC {
 				STC.reservation_target = clicked_reservation;
 				STC.selection_complete = true;
 
+				const date1_input = document.getElementById("date1_val");
+				const date2_input = document.getElementById("date2_val");
+				date1_input.disabled = false;
+				date2_input.disabled = false;
+				date1_input.value = STC.reservation_target[1];
+				date2_input.value = STC.reservation_target[2];
+
 				const date_split1 = STC.reservation_target[1].split("-");
 				const date_split2 = STC.reservation_target[2].split("-");
 				const date1_formatted = new Date(date_split1[0], date_split1[1] - 1, date_split1[2]);
@@ -451,6 +458,10 @@ class PAGE_FUNC {
 			document.querySelector("#reservation_select").innerHTML = "Reservation selected: none";
 			document.querySelector("#delete_res_btn").disabled = true;
 			document.querySelector("#edit_res_btn").disabled = true;
+			document.getElementById("date1_val").disabled = true;
+			document.getElementById("date2_val").disabled = true;
+			document.getElementById("date1_val").value = null;
+			document.getElementById("date2_val").value = null;
 		}
 
 		HLPR.setMonth(new Date(STC.current_selection.year, STC.current_selection.month));
