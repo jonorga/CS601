@@ -140,17 +140,24 @@
 					<div class="day" id="day41"></div>
 				</div>
 			</div>
-			<div id=selections_div>
-				<p id="server_status"></p>
-				<p id="selections_p">Dates selected: none</p>
-				<button id="reset_selection">Reset selection</button>
+			<div id="info_container">
+				<div class="info_sect">
+					<span>Dates selected:</span>
+					<span>Reservation name: </span>
+				</div>
+				<div class="info_sect">
+					<span id="selections_p">none</span>
+					<input type="text" id="res_name" placeholder="John Doe">
+				</div>
 			</div>
-			<div>
-				<input type="date" id="date1_val" name="date1">
-				<input type="date" id="date2_val" name="date2">
-				<span>Reservation name: </span>
-				<input type="text" id="res_name">
+			<div id="res_btns">
+				<button id="reset_selection">Reset selection</button>
 				<input type="submit" id="submit_selection">
+			</div>
+			<div id="server_div">
+				<p>Message from server:</p>
+				<button id="dismiss_message">X</button>
+				<p id="server_message"></p>
 			</div>
 		</div>';
 		if ($login_success) echo $main_page;

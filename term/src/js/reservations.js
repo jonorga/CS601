@@ -17,6 +17,7 @@ export function initializePage() {
 		document.querySelector("#prev_month").addEventListener("click", PAGE_FUNC.previousMonth);
 		document.querySelector("#next_month").addEventListener("click", PAGE_FUNC.nextMonth);
 		document.querySelector("#reset_selection").addEventListener("click", PAGE_FUNC.resetSelection);
+		document.querySelector("#dismiss_message").addEventListener("click", PAGE_FUNC.dismissServerMessage)
 
 		for (let i = 0; i <= 41; i++) {
 			document.querySelector(`#day${i}`).addEventListener("mouseover", PAGE_FUNC.calendarEvent);

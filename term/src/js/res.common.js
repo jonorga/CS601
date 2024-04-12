@@ -212,12 +212,24 @@ class HLPR {
 			document.querySelector("#last_week").style.display = "flex";
 		}
 	}
+
+	static async serverMessage(message) {
+		document.querySelector("#server_message").innerHTML = message;
+		const server_div = document.querySelector("#server_div");
+		server_div.style.opacity = 1;
+		server_div.removeAttribute("silenced");
+
+		await new Promise(r => setTimeout(r, 5000));
+
+		if (!server_div.hasAttribute("silenced"))
+			PAGE_FUNC.dismissServerMessage();
+	}
 }
 
 // All backend call functions
 class BACKEND {
 	// Retrieve all the previously booked dates from this table
-	static retrievePreviousDates() {
+	static retrievePreviousDates(prev_message = "") {
 		const formdata = new FormData();
 		formdata.append("user", STC.user);
 
@@ -241,13 +253,14 @@ class BACKEND {
 					STC.booked_dates.push(date_split);
 				} );
 				HLPR.setMonth(new Date(STC.current_selection.year, STC.current_selection.month));
-				const previous_status = document.querySelector("#server_status").innerHTML;
-				document.querySelector("#server_status").innerHTML = `${previous_status} Previous dates retrieved`;
+				if (prev_message == "")
+					HLPR.serverMessage("Previous dates retrieved");
+				else
+					HLPR.serverMessage(prev_message);
 
 			})
 			.catch((err) => {
-				const previous_status = document.querySelector("#server_status").innerHTML;
-				document.querySelector("#server_status").innerHTML = `${previous_status} Error while retrieving previous dates ${err}`;
+				HLPR.serverMessage(`Error while retrieving previous dates ${err}`);
 			});
 	}
 
@@ -265,8 +278,10 @@ class BACKEND {
 		}
 
 		const formdata = new FormData();
-		const date1 = document.querySelector("#date1_val").value;
-		const date2 = document.querySelector("#date2_val").value;
+		const date1 = STC.dates_selected[0] < STC.dates_selected[1] ? STC.dates_selected[0].toISOString().split("T")[0]
+			: STC.dates_selected[1].toISOString().split("T")[0];
+		const date2 = STC.dates_selected[0] < STC.dates_selected[1] ? STC.dates_selected[1].toISOString().split("T")[0]
+			: STC.dates_selected[0].toISOString().split("T")[0];
 		formdata.append("user", STC.user);
 		formdata.append("date1", date1);
 		formdata.append("date2", date2);
@@ -280,14 +295,11 @@ class BACKEND {
 		fetch(request)
 			.then((res) => res.text())
 			.then((text) => {
-				BACKEND.retrievePreviousDates();
-				const previous_status = document.querySelector("#server_status").innerHTML;
-				document.querySelector("#server_status").innerHTML = `${previous_status} Server said: ${text}`;
+				BACKEND.retrievePreviousDates(text);
 				PAGE_FUNC.resetSelection();
 			})
 			.catch((err) => {
-				const previous_status = document.querySelector("#server_status").innerHTML;
-				document.querySelector("#server_status").innerHTML = `${previous_status} Server error from submitting dates call`;
+				HLPR.serverMessage(`Server error while attempting to submit reservation dates, ${err}`);
 			});
 	}
 }
@@ -352,11 +364,9 @@ class PAGE_FUNC {
 				target.style.backgroundColor = STC.color_selected;
 				target.setAttribute("selected", "");
 				STC.dates_selected.push(new Date(STC.current_selection.year, STC.current_selection.month, target.innerHTML));
-				document.querySelector("#selections_p").innerHTML = "Date selected: " 
-					+ STC.months[STC.dates_selected[0].getMonth()] + " " + HLPR.cardinalDate(STC.dates_selected[0].getDate()) + ", "
-					+ STC.dates_selected[0].getFullYear();
+				document.querySelector("#selections_p").innerHTML = STC.months[STC.dates_selected[0].getMonth()] + " " 
+					+ HLPR.cardinalDate(STC.dates_selected[0].getDate()) + ", " + STC.dates_selected[0].getFullYear();
 				STC.selection_in_progress = true;
-				document.querySelector("#date1_val").value = STC.dates_selected[0].toISOString().split("T")[0];
 			} else if (target.hasAttribute("selected")) {
 				if (target.hasAttribute("istoday"))
 					target.style.backgroundColor = STC.color_today;
@@ -364,7 +374,7 @@ class PAGE_FUNC {
 					target.style.backgroundColor = STC.color_unselected;
 				target.removeAttribute("selected");
 				STC.dates_selected.pop();
-				document.querySelector("#selections_p").innerHTML = "Date selected: none";
+				document.querySelector("#selections_p").innerHTML = "none";
 				STC.selection_in_progress = false;
 			} else {
 				STC.selection_complete = true;
@@ -375,15 +385,7 @@ class PAGE_FUNC {
 				const date2_f = STC.months[STC.dates_selected[1].getMonth()] + " " + HLPR.cardinalDate(STC.dates_selected[1].getDate()) + ", "
 					+ STC.dates_selected[1].getFullYear();
 				const output = STC.dates_selected[0] < STC.dates_selected[1] ? date1_f + " - " + date2_f : date2_f + " - " + date1_f;
-				document.querySelector("#selections_p").innerHTML = "Date selected: " + output;
-
-				if (STC.dates_selected[0] < STC.dates_selected[1]) {
-					document.querySelector("#date1_val").value = STC.dates_selected[0].toISOString().split("T")[0];
-					document.querySelector("#date2_val").value = STC.dates_selected[1].toISOString().split("T")[0];
-				} else {
-					document.querySelector("#date2_val").value = STC.dates_selected[0].toISOString().split("T")[0];
-					document.querySelector("#date1_val").value = STC.dates_selected[1].toISOString().split("T")[0];
-				}
+				document.querySelector("#selections_p").innerHTML = output;
 			}
 		}
 		else if (STC.selection_in_progress) {
@@ -441,11 +443,9 @@ class PAGE_FUNC {
 	static resetSelection() {
 		STC.selection_in_progress = false;
 		STC.selection_complete = false;
-		document.querySelector("#date1_val").value = null;
-		document.querySelector("#date2_val").value = null;
 		STC.dates_selected = [ ];
 		STC.reservation_target = null;
-		document.querySelector("#selections_p").innerHTML = "Dates selected: none";
+		document.querySelector("#selections_p").innerHTML = "none";
 
 		if (document.getElementById("reservation_select") != null) {
 			document.querySelector("#reservation_select").innerHTML = "Reservation selected: none";
@@ -454,6 +454,21 @@ class PAGE_FUNC {
 		}
 
 		HLPR.setMonth(new Date(STC.current_selection.year, STC.current_selection.month));
+	}
+
+	static async dismissServerMessage() {
+		const server_div = document.querySelector("#server_div");
+		server_div.setAttribute("silenced", "");
+
+		let i = 1;
+		while (i > 0) {
+			server_div.style.opacity = i;
+			await new Promise(r => setTimeout(r, 50));
+			i -= 0.1;
+		}
+		server_div.style.opacity = 0;
+
+		document.querySelector("#server_message").innerHTML = "";
 	}
 }
 
