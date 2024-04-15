@@ -142,6 +142,7 @@ class HLPR {
 		let day_count = 1;
 		for (const week of calendar.children) {
 			for (const day of week.children) {
+				if (day.hasAttribute("calheader")) continue;
 				if (i >= week_day_1 && day_count <= month_length) {
 					day.innerHTML = day_count;
 					day.removeAttribute("invalid");
@@ -304,7 +305,7 @@ class BACKEND {
 	}
 }
 
-
+// All page functions
 class PAGE_FUNC {
 	// Shift current selection to previous month and call setMonth function
 	static previousMonth() {

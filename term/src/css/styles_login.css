@@ -2,7 +2,7 @@ html, body {
 	font-family: 'Montserrat', sans-serif;
 	margin: 0;
 	height: 100%;
-	background: linear-gradient(70deg, cyan, darkcyan);
+	background: linear-gradient(70deg, #0055b0, darkcyan);
 }
 
 #main_container {
@@ -17,11 +17,19 @@ h1 {
 	margin-bottom: 2rem;
 }
 
+#header_title::after {
+	content: "";
+	display: block;
+	height: 2px;
+	width: 100%;
+	background-color: turquoise;
+}
+
 h3 {
 	margin-top: 0;
 }
 
-.login_toggle {
+h1 + div {
 	position: relative;
 	width: 20rem;
 	height: 3rem;
@@ -39,7 +47,7 @@ h3 {
 	opacity: 0;
 }
 
-.slider {
+input + div {
 	position: absolute;
 	text-align: center;
 	align-content: center;
@@ -73,7 +81,7 @@ input:checked + .slider > div {
 	transform: translateX(-8rem);
 }
 
-.slider > div {
+input + div > div {
 	transition: 1s;
 }
 
@@ -110,7 +118,7 @@ input:checked + .slider > div {
 
 }
 
-#signin_container {
+#main_container > div + div {
 	display: flex;
 	height: 75%;
 	justify-content: center;
@@ -118,7 +126,7 @@ input:checked + .slider > div {
 
 
 
-#backimage {
+#signin_container > div + div {
 	position: absolute;
 	z-index: 1;
 	width: 90%;
@@ -148,10 +156,6 @@ img {
 	17% { opacity: 1; }
 	22% { opacity: 0; }
 	100% { opacity: 0; }
-}
-
-#bckgrnd1 {
-	
 }
 
 #bckgrnd2 {
@@ -222,14 +226,22 @@ button:disabled {
 	font-style: italic;
 }
 
+#owner_header::after, #user_header::after {
+	content: "";
+	display: block;
+	height: 2px;
+	width: 100%;
+	background-color: turquoise;
+}
+
 #owner_div {
 	display: none;
 }
 
-#owner_hint {
+#owner_div button + span {
 	display: none;
 }
 
-#user_hint {
+#user_div button + span {
 	display: none;
 }

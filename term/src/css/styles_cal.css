@@ -2,22 +2,14 @@ html, body {
 	font-family: 'Montserrat', sans-serif;
 	margin: 0;
 	width: max-content;
-	background: linear-gradient(70deg, cyan, darkcyan);
+	background: linear-gradient(70deg, #0055b0, darkcyan);
 }
 
-@media screen and (max-width: 455px) {
-	html, body {
-		height: 100%;
-	}
-}
-@media screen and (min-width: 456px) {
-	html, body {
-		height: max-content;
-	}
-}
+
 
 #reject_container {
 	margin: 10px;
+	height: 100%;
 }
 
 #calendar_header button {
@@ -54,12 +46,38 @@ h1 {
 	height: 12vmin;
 }
 
-.day {
+.headrow {
+	align-items: flex-end;
+}
+
+.cal_days:nth-child(1) {
+	border-right: solid white 1px;
+}
+
+.cal_days:nth-child(7) {
+	border-left: solid white 1px;
+}
+
+.day, .cal_days {
 	border: solid black 1px;
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	font-size: 2vh;
+}
+
+.cal_days {
+	padding-top: .5vmin;
+	height: 3vmin;
+	text-align: center;
+	background-color: black;
+	color: white;
+	font-style: italic;
+}
+
+.innerday {
+	border-left: solid white 1px;
+	border-right: solid white 1px;
 }
 
 #calendar {

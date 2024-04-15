@@ -69,14 +69,32 @@
 	<body>
 		<?php
 		$reject_page = '
-		<div id="login_rejected">
+		<style>
+			html, body {
+				height: 100%;
+				width: 100%;
+			}
+		</style>
+		<div id="reject_container">
 			<h1>Whoops... we couldn\'t log you in</h1>
-			<h3>Reason(s):</h3>
+			<h3>Reason(s):</h3><p>
 			' . $failure_reason . '
-			<br>
-			<button id="return_btn">Back to login page</button>
+			</p><br>
+			<button id="return_btn" class="standardbtn">Back to login page</button>
 		</div>';
 		$main_page = '
+		<style>
+			@media screen and (max-width: 455px) {
+				html, body {
+					height: 100%;
+				}
+			}
+			@media screen and (min-width: 456px) {
+				html, body {
+					min-height: max-content;
+				}
+			}
+		</style>
 		<div id="main_container">
 			<h1>Rental Reservations</h1>
 			<div id="calendar_header">
@@ -85,6 +103,15 @@
 				<button id="next_month">></button>
 			</div>
 			<div id="calendar">
+				<div class="row headrow">
+					<div class="cal_days" calheader>Sunday</div>
+					<div class="cal_days innerday" calheader>Monday</div>
+					<div class="cal_days innerday" calheader>Tuesday</div>
+					<div class="cal_days innerday" calheader>Wednesday</div>
+					<div class="cal_days innerday" calheader>Thursday</div>
+					<div class="cal_days innerday" calheader>Friday</div>
+					<div class="cal_days " calheader>Saturday</div>
+				</div>
 				<div class="row">
 					<div class="day" id="day0"></div>
 					<div class="day" id="day1"></div>
