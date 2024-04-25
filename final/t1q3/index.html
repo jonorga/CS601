@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+	<head></head>
+	<body>
+		<h1>Test 1 Question 3</h1>
+		<form>
+			<label for="ta">Text area:</label>
+			<textarea id="ta" name="ta"></textarea>
+			<br/>
+			<label for="te">Text field:</label>
+			<input type="text" id="te" name="te"/>
+			<br/>
+			<label for="d">Date selector:</label>
+			<input type="date" id="d" name="d"/>
+			<br/>
+			<p id="errmsg">Error: Please fill out all fields of the form to submit</p>
+			<input type="submit" value="Submit" id="submitbtn" disabled />
+		</form>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				function formValidation() {
+					const textArea = document.querySelector("#ta");
+					const textField = document.querySelector("#te");
+					const dateSelector = document.querySelector("#d");
+
+					if (!Number.isNaN(new Date(dateSelector.value).valueOf()) 
+						&& textArea.value != "" && textArea.value != null 
+						&& textField.value != "" && textField.value != null) {
+							// All fields are valid
+						document.querySelector("#submitbtn").disabled = false;
+						document.querySelector("#errmsg").style.display = "none";
+					}
+					else {
+						document.querySelector("#submitbtn").disabled = true;
+						document.querySelector("#errmsg").style.display = "block";
+					}
+				}
+				
+
+				document.querySelector("#ta").addEventListener("keyup", formValidation);
+				document.querySelector("#te").addEventListener("keyup", formValidation);
+				document.querySelector("#d").addEventListener("change", formValidation);
+			});
+		</script>
+	</body>
+</html>

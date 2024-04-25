@@ -8,6 +8,7 @@
 		<title>Rental Reservations</title>
 		<?php
 			$login_success = FALSE;
+			$force_failure = FALSE;
 			$failure_reason = "";
 			if (isset($_POST['user'])) { $user = $_POST['user']; }
 			else $user = "";
@@ -17,6 +18,13 @@
 			
 			if ($user == "" || $pass == "") {
 				$failure_reason = $failure_reason . "| Either the username or the password was not collected |";
+				$force_failure = TRUE;
+			}
+
+
+			if (preg_match("/[^a-z0-9]/i", $user) == 1 || preg_match("/[^a-z0-9]/i", $pass) == 1) {
+				$failure_reason = $failure_reason . "| Your username and password can only include letters and numbers |";
+				$force_failure = TRUE;
 			}
 
 			$db_host = 'localhost';
@@ -36,20 +44,22 @@
 				$failure_reason = $failure_reason . "| Fatal error: $mysqli->connect_error |";
 			}
 
-			$sql = "SELECT * FROM `Logins` WHERE username = \"$user\" AND password = \"$pass\"";
-			$result = $mysqli -> query($sql);
-			if ($result !== FALSE) {
-				if ($result -> num_rows == 1) {
-					$login_success = TRUE;
-					$row = $result -> fetch_row();
-					echo "<meta name=\"database\" content=\"$row[2]\">";
+			if (!$force_failure) {
+				$sql = "SELECT * FROM `Logins` WHERE username = \"$user\" AND password = \"$pass\"";
+				$result = $mysqli -> query($sql);
+				if ($result !== FALSE) {
+					if ($result -> num_rows == 1) {
+						$login_success = TRUE;
+						$row = $result -> fetch_row();
+						echo "<meta name=\"database\" content=\"$row[2]\">";
+					}
+					else {
+						$failure_reason = $failure_reason . "| Username or password was incorrect |";
+					}
 				}
 				else {
-					$failure_reason = $failure_reason . "| Username or password was incorrect |";
+					$failure_reason = $failure_reason . "| Fatal error: Failed to access server |";
 				}
-			}
-			else {
-				$failure_reason = $failure_reason . "| Fatal error: Failed to access server |";
 			}
 
 			if ($login_success) {
@@ -96,7 +106,7 @@
 			}
 		</style>
 		<div id="main_container">
-			<h1>Rental Reservations</h1>
+			<h1>Rental Calendar - ' . $user . '</h1>
 			<div id="calendar_header">
 				<button id="prev_month"><</button>
 				<h3 id="month"></h3>

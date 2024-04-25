@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+	<head></head>
+	<body>
+		<h1>Test 1 Question 2</h1>
+		<ol id="output"></ol>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const request = new Request('https://jsonplaceholder.typicode.com/todos/10', {
+					method: 'GET',
+				});
+				
+				fetch(request)
+					.then((res) => res.json())
+					.then((json) => {
+						const output = document.querySelector("#output");
+
+						for (const entry of Object.keys(json)) {
+							const newItem = document.createElement("li");
+							newItem.innerHTML = entry + ": " + json[entry];
+							output.appendChild(newItem);
+						}
+					})
+			});
+		</script>
+	</body>
+</html>

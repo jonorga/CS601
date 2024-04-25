@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+	<head></head>
+	<body>
+		<h1>Test 1 Question 1</h1>
+		<script>
+
+			const testSet = new Set();
+			const testMap = new Map();
+
+			console.log(`Empty set size: ${testSet.size}`);
+			console.log(`Empty map size: ${testMap.size}`);
+
+			testSet.add("Test Element");
+			testMap.set("Val1", "Test Element");
+
+			console.log(`Set size after element added: ${testSet.size}`);
+			for (const entry of testSet.entries()) {
+				console.log(`Set element added: ${entry[1]}, key: ${entry[0]}`);
+			}
+			console.log(`Map size after element added: ${testMap.size}`);
+			for (const entry of testMap.entries()) {
+				console.log(`Map element added: ${entry[1]}, key: ${entry[0]}`);
+			}
+
+			testSet.delete("Test Element");
+			testMap.delete("Val1");
+
+			console.log(`Set size after element deleted: ${testSet.size}`);
+			console.log(`Map size after element deleted: ${testMap.size}`);
+		</script>
+	</body>
+</html>

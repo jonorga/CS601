@@ -8,6 +8,7 @@
 		<title>Rental Reservations</title>
 		<?php
 			$login_success = FALSE;
+			$force_failure = FALSE;
 			$failure_reason = "";
 			if (isset($_POST['user_login'])) { $user = $_POST['user_login']; }
 			else $user = "";
@@ -15,6 +16,12 @@
 			
 			if ($user == "") {
 				$failure_reason = $failure_reason . " No username set, return to login page and try again\n";
+				$force_failure = TRUE;
+			}
+
+			if (preg_match("/[^a-z0-9]/i", $user) == 1) {
+				$failure_reason = $failure_reason . " Property name can only include letters and numbers \n";
+				$force_failure = TRUE;
 			}
 
 			$db_host = 'localhost';
@@ -34,20 +41,22 @@
 				$failure_reason = $failure_reason . 'Error: '.$mysqli->connect_error;
 			}
 
-			$sql = "SELECT * FROM `Logins` WHERE username = \"$user\"";
-			$result = $mysqli -> query($sql);
-			if ($result !== FALSE) {
-				if ($result -> num_rows == 1) {
-					$login_success = TRUE;
-					$row = $result -> fetch_row();
-					echo "<meta name=\"database\" content=\"$row[2]\">";
+			if (!$force_failure) {
+				$sql = "SELECT * FROM `Logins` WHERE username = \"$user\"";
+				$result = $mysqli -> query($sql);
+				if ($result !== FALSE) {
+					if ($result -> num_rows == 1) {
+						$login_success = TRUE;
+						$row = $result -> fetch_row();
+						echo "<meta name=\"database\" content=\"$row[2]\">";
+					}
+					else {
+						$failure_reason = $failure_reason . "$user property could not be found";
+					}
 				}
 				else {
-					$failure_reason = $failure_reason . "$user property could not be found";
+					$failure_reason = $failure_reason . "loading $user property failed";
 				}
-			}
-			else {
-				$failure_reason = $failure_reason . "loading $user property failed";
 			}
 
 			if ($login_success) {
