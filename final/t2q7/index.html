@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>
+			//https://api.domainsdb.info/v1/domains/search?domain=facebook&zone=com
+			document.addEventListener("DOMContentLoaded", function () {
+				async function newFunc() {
+					console.log("Func started");
+
+					const myHeaders = new Headers();
+					myHeaders.append("Access-Control-Allow-Origin", "*");
+					myHeaders.append("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
+					myHeaders.append("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+					//myHeaders.forEach((h, v) => console.log(h, v));
+					const myInit = {
+						method: "GET",
+						headers: myHeaders,
+						mode: "cors",
+						cache: "default",
+					};
+					
+					const request = new Request('https://api.domainsdb.info/v1/domains/search?domain=facebook&zone=com', myInit);
+					
+
+
+					let content = await fetch(request);
+					//let json = await content.json();
+					//console.log(content);
+					console.log("Func ended");
+				}
+				
+				newFunc();
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Test 2 Question 7</h1>
+		<div id="output"></div>
+	</body>
+</html>

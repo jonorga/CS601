@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>
+			//https://api.domainsdb.info/v1/domains/search?domain=facebook&zone=com
+			document.addEventListener("DOMContentLoaded", function () {
+				function sumFunc(...vals) {
+					return vals.reduce((sum, current) => sum + current);
+				}
+
+				const a = 4;
+				const b = 1;
+				const c = 9;
+				const d = 7;
+
+				console.log(sumFunc(a)); // 4
+				console.log(sumFunc(a, b)); // 5
+				console.log(sumFunc(a, b, c)); // 14
+				console.log(sumFunc(a, b, c, d)); // 21
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Test 2 Question 9</h1>
+		<div id="output"></div>
+	</body>
+</html>

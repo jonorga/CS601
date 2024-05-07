@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="module">
+			import { sayHi, sayBye } from "./javscr.js";
+			const newElement1 = document.createElement("p");
+			const newElement2 = document.createElement("p");
+			newElement1.innerHTML = sayHi();
+			newElement2.innerHTML = sayBye();
+			document.querySelector("#output").appendChild(newElement1);
+			document.querySelector("#output").appendChild(newElement2);
+		</script>
+	</head>
+	<body>
+		<h1>Test 1 Question 9</h1>
+		<div id="output"></div>
+	</body>
+</html>

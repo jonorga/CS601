@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				document.querySelector("#btn").addEventListener("click", function() {
+					const inputArr = [10,78, 121, 454,3,"a", "&67", "18b", "9-", "OO8"];
+					const outputArr = inputArr.filter((val) => val > 100);
+					console.log(outputArr);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Test 1 Question 7</h1>
+		<button id="btn">Call function</button>
+	</body>
+</html>

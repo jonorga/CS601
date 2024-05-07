@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>
+			class Human {
+				constructor(eye, hei, gen, nam) {
+					this.eyeColor = eye;
+					this.height = hei;
+					this.gender = gen;
+					this.name = nam;
+				}
+
+				sayHi() {
+					if (this.name != "") {
+						console.log(`Hi ${this.name}!`);
+					}
+				}
+			}
+
+			const h = new Human("", "", "", "Bob");
+			h.sayHi();
+		</script>
+	</head>
+	<body>
+		<h1>Test 2 Question 3</h1>
+	</body>
+</html>

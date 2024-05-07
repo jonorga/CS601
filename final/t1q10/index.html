@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>
+			function promiseExample1() {
+				new Promise((resolve, reject) => {
+					resolve();
+					reject();
+				})
+					.then(() => {
+						console.log("Promise example 1 successful!");
+					})
+					.catch(() => {
+						console.log("Promise example 1 failed!");
+					});
+			}
+
+			promiseExample1();
+
+			async function promiseExampleAsync() {
+				await new Promise(r => setTimeout(r, 100));
+				console.log("Promise async example successful!")
+			}
+
+			promiseExampleAsync();
+		</script>
+	</head>
+	<body>
+		<h1>Test 1 Question 10</h1>
+	</body>
+</html>

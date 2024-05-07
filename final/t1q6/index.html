@@ -4,7 +4,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script>
 			document.addEventListener("DOMContentLoaded", function () {
-				
+				function outerFunction() {
+					const outerFuncVar = "SomeValue";
+					function innerFunction() {
+						// Closure is the concept that this inner function has access to the lexical scope
+						// which includes the variables in the scope of the outer function
+						const innerFuncVar = outerFuncVar + " AnotherValue";
+						console.log(innerFuncVar);
+					}
+					return innerFunction;
+				}
+
+				const funcExp = outerFunction();
+				funcExp();
 			});
 		</script>
 	</head>
