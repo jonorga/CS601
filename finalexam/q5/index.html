@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				class Person {
+					#SSN;
+					constructor(SSN_val = "000-00-000", fullName_val = "N/A") {
+						if (SSN_val != null)
+							this.#SSN = SSN_val;
+						else
+							this.#SSN = "000-00-000";
+						if (fullName_val != null)
+							this.fullName = fullName_val;
+						else
+							this.fullName = "N/A";
+					}
+				}
+
+				// Person with defined ssn and name
+				const person1 = new Person("123-45-6789", "John Doe");
+				console.log("Expected values: SSN: 123-45-6789, fullName: John Doe")
+				console.log(person1);
+
+				// Person with defined SSN but no name
+				const person2 = new Person("123-45-6789");
+				console.log("\nExpected values: SSN: 123-45-6789, fullName: N/A")
+				console.log(person2);
+
+				// Person with defined name but no SSN
+				const person3 = new Person(null, "John Doe");
+				console.log("\nExpected values: SSN: 000-00-000, fullName: John Doe")
+				console.log(person3);
+
+				// Person with no defined SSN or name
+				const person4 = new Person();
+				console.log("\nExpected values: SSN: 000-00-000, fullName: N/A")
+				console.log(person4);
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 5</h1>
+	</body>
+</html>

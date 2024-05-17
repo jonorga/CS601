@@ -20,17 +20,19 @@ document.addEventListener("DOMContentLoaded", function () {
 			this.end = null;
 		}
 
-		setName(name_value) {
-			this.name = name_value;
-		}
+		setName(name_value) { this.name = name_value; }
 
-		setStart(start_value) {
-			this.start = start_value;
-		}
+		setStart(start_value) { this.start = start_value }
+		getStart() { return this.start; }
 
-		setEnd(end_value) {
-			this.end = end_value;
-		}
+		setEnd(end_value) { this.end = end_value; }
+		getEnd() { return this.end; }
+	}
+
+	function formatDate(str) {
+		// input: yyyymmdd
+		// output: yyyy-mm-dd
+		return str.slice(0, 4) + "-" + str.slice(4,6) + "-" + str.slice(6);
 	}
 
 	function readICS(text) {
@@ -54,33 +56,80 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 				else if (line.match("END:VEVENT")) {
 					event_found = false;
+					if (event_object != null) {
+						if (event_object.getStart() != null && event_object.getEnd() != null) {
+							events.push(event_object);
+						}
+						event_object = null;
+					}
 				}
 				else if (event_found) {
 					if (line.match(/SUMMARY:*/)) {
-						event_object.setName(line.slice(8));
+						event_object.setName(line.slice(8,-1));
 					}
-					if (line.match(/DTSTART;*/)) {
-						if (line.match(/\d{8}$/)) {
-							console.log("match");
+					else if (line.match(/DTSTART;*/)) {
+						if (line.match(/\d{8}\D\d{6}/)) {
+							// yyyymmddThhmmss format
+							event_object.setStart(new Date(formatDate(line.slice(-16,-8))));
 						}
-						else
-							console.log(line)
-						//event_object.setName(line.slice(8));
+						else {
+							// yyyymmdd format
+							event_object.setStart(new Date(formatDate(line.slice(-9))));
+						}
+					}
+					else if (line.match(/DTEND;*/)) {
+						if (line.match(/\d{8}\D\d{6}/)) {
+							// yyyymmddThhmmss format
+							event_object.setEnd(new Date(formatDate(line.slice(-16,-8))));
+						}
+						else {
+							// yyyymmdd format
+							event_object.setEnd(new Date(formatDate(line.slice(-9))));
+						}
 					}
 				}
 			}
+			console.log(events.length);
 		}
 		else {
 			console.log("error, no calendar events found")
 		}
 	}
 
-	fetch("./test.ics")
+
+	function mainICS() {
+		fetch("http://www.vrbo.com/icalendar/4ed3d549a3ca426689ec2bc55097667d.ics") // ./test.ics
+			.then((res) => res.text())
+			.then((text) => {
+				readICS(text);
+			})
+			.catch((err) => {
+				console.log(`Error reading file ${err}`);
+			})
+	}
+
+	const myHeaders = new Headers();
+	myHeaders.append("Access-Control-Allow-Origin", "*");
+	myHeaders.append("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS");
+	myHeaders.append("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+	const myInit = {
+		method: "GET",
+		headers: myHeaders,
+		mode: "cors",
+		cache: "default",
+	};
+	console.log(myHeaders['Referer'])
+
+	const request = new Request('https://www.vrbo.com/icalendar/4ed3d549a3ca426689ec2bc55097667d.ics', myInit);
+
+	fetch(request)
 		.then((res) => res.text())
-		.then((text) => {
-			readICS(text);
-		})
-		.catch((err) => {
-			console.log(`Error reading file ${err}`);
-		})
+			.then((text) => {
+				console.log(text);
+			})
+			.catch((err) => {
+				console.log(`Error reading file ${err}`);
+			})
+
+	console.log("Done 2");
 });

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+
+			document.addEventListener("DOMContentLoaded", function () {
+				const numSet = new Set();
+				document.querySelector("#addbtn").addEventListener("click", function () {
+					const input_val = document.querySelector("#num_input").value;
+					if (input_val % 2 == 0 && input_val > 0) {
+						numSet.add(input_val);
+					}
+					else {
+						alert("Number must be positive and dividible by 2");
+					}
+				});
+
+				document.querySelector("#showbtn").addEventListener("click", function () {
+					let output = "";
+					numSet.forEach((num) => output = output + " " + num)
+					document.querySelector("#output").innerHTML = output;
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 1</h1>
+		<p>Enter a positive even number to add to the collection</p>
+		<input type="number" id="num_input"/>
+		<button id="addbtn">Add number to collection</button>
+		<br/>
+		<button id="showbtn">Show collection</button>
+		<p id="output"></p>
+	</body>
+</html>

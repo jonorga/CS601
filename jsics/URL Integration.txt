@@ -1,0 +1,38 @@
+1) Get URL from widget input parameters
+	- add fileURL property to API
+	- Create new URL panel
+	- In URL Panel, when props changed, update API like so:
+		```
+		$w('#panelTextInput1').onChange(async () => {
+	        wixWidget.setProps({ fileURL: $w('#panelTextInput1').value });
+	    })
+	    ```
+	- In configuration, add Set URL button and land it at URL panel
+	- Get URL in front-end, pass to function below
+	- Add imported function in front end to call URL ICS file
+2) Get ICS file from URL
+	- Create a backend module (.jsw file)
+	- Use fetch and await to get the text from the URL in async function
+	- Return the text object (see example below)
+		```
+		const res = await fetch('https://www.vrbo.com/icalendar/4ed3d549a3ca426689ec2bc55097667d.ics');
+		const text = await res.text();
+	  	return text;
+	  	```
+3) Pass ICS file to ICS interpretter
+	- Create another backend module
+	- Bring in CalendarEvent class, formatDate function, and readICS function into module
+	- Parse calendar and return JSON to front end
+4) Fill out relevant dates in calendar
+	- Base this off of term project implementation
+
+
+=== IMPLEMENTATION BUILD ===
+- DONE Figure out how you can set parameters for widget
+
+
+===== CONCRETE TODO =====
+1) 
+2)
+3) 
+4) 

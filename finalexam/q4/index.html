@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script type="module">
+			import { sayHiWithDate } from './hello_mod.js';
+			document.addEventListener("DOMContentLoaded", function () {
+				document.querySelector("#output").innerHTML = sayHiWithDate();
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 4</h1>
+		<h1 id="output"></h1>
+	</body>
+</html>

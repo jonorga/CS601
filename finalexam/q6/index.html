@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				async function palindromeRes(correct) {
+					const output = document.querySelector("#output");
+					if (correct) {
+						output.innerHTML = "This is valid";
+						await new Promise(r => setTimeout(r, 4000));
+					}
+					else {
+						output.innerHTML = "Not a palindrome";
+						await new Promise(r => setTimeout(r, 5000));
+					}
+					output.innerHTML = "";
+				}
+
+				document.querySelector("#checkbtn").addEventListener("click", function () {
+					const input = document.querySelector("#text_input").value.toLowerCase().replaceAll(' ', '');
+					const len = input.length - 1;
+					let i = 0;
+					let palindrome = true;
+					while (i < len) {
+						if (input.at(i) != input.at(len - i)) {
+							palindrome = false;
+						}
+						i++;
+					}
+					palindromeRes(palindrome);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 6</h1>
+		<p>Type a palindrome into the input field</p>
+		<input type="text" id="text_input"/>
+		<button id="checkbtn">Check palindrome</button>
+		<p id="output"></p>
+	</body>
+</html>

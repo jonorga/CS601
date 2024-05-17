@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				let colors = new Set(["orange", "grey", "purple", "cyan", "red", "green", "blue", "gold", "pink", "yellow", "white", "garnet"]);
+
+				const map = new Map();
+				let index = 0;
+
+				colors.forEach((c) => {
+					if (c.slice(0,1) == "g")
+						map.set(index, c);
+					index++;
+				});
+
+				console.log("Resulting map:");
+				for (const entry of map.entries()) {
+					console.log(`Map element added: ${entry[1]}, key: ${entry[0]}`);
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 9</h1>
+		<p id="output"></p>
+	</body>
+</html>

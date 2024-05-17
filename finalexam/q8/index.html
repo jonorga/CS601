@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const testObj = {
+			        count: 8, 
+			        isValid: true, 
+			        title:"Exam", 
+			        temperature: 87.88
+			    }
+
+			    const { title } = testObj;
+			    document.querySelector("#output").innerHTML = `The destructered title attribute: ${title}`;
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 8</h1>
+		<p id="output"></p>
+	</body>
+</html>

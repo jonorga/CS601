@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				async function mainFunc() {
+					//
+					const call = await fetch("https://api.domainsdb.info/v1/domains/search?domain=facebook&zone=com")
+					const res = await call.json();
+					
+					document.querySelector("#output").innerHTML = `Fetch call found ${res.domains.length} domains`;
+				}
+
+				mainFunc();
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 7</h1>
+		<h1 id="output"></h1>
+	</body>
+</html>

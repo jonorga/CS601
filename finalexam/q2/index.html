@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				fetch("https://poetrydb.org/title/Ozymandias/lines.json")
+					.then((res) => res.json())
+					.then((json) => {
+						json[0].lines.forEach((l) => {
+							const newP = document.createElement("p");
+							newP.innerHTML = l;
+							document.querySelector("#output").appendChild(newP);
+						});
+					});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Question 2</h1>
+		<div id="output"></div>
+	</body>
+</html>
